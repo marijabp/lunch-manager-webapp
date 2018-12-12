@@ -22,6 +22,9 @@ const categories = [
         options: [
           { price: 3 },
         ],
+        condiments: [
+          {}
+        ]
       },
       {
         foodName: "Supa", description: "Paradajz sos, sunka, sir, gljive",

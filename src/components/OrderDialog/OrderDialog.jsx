@@ -17,6 +17,9 @@ export default class OrderDialog extends React.Component {
     this.props.toggleOrderDialog()
   }
 
+
+
+
   render() {
 
     const { foodName, description, options } = this.props.selectedFood
@@ -30,7 +33,7 @@ export default class OrderDialog extends React.Component {
           <DialogTitle id="form-dialog-title">{foodName}</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              {options.length>1 ? 'vise':'manje' }
+              {options.length>1 ? 'najvise':'najmanje' }
             </DialogContentText>
             <TextField
               autoFocus

@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import OrderDialog from '../OrderDialog'
 
 const styles = {
     foodPriceText:{
@@ -22,6 +21,7 @@ const styles = {
         justifyContent: "flex-start",
         fontSize: 17,
         fontFamily: "Comic Sans MS",
+        cursor: "pointer",
     },
     price: {
         display: "flex",
@@ -45,12 +45,14 @@ class FoodItem extends Component {
         const minPrice = Math.min(...allPrices)
         return minPrice
     }
+    
     render(){
-        const { foodName, options, description, toggleOrderDialog }=this.props
+        const { foodName, options, description, condiments }=this.props
+
         return(
             <Fragment>
             <div style={styles.foodItem}>
-            <div style={styles.name} onClick={() => this.handleClick({foodName, options, description})}> {foodName} </div>
+            <div style={styles.name} onClick={() => this.handleClick({foodName, options, description, condiments})}> {foodName} </div>
             <div style={styles.price}> {this.getMinPrice()} KM </div>
             <div style={styles.description}> {description} </div>
             </div>

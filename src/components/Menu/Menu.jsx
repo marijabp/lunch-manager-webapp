@@ -18,25 +18,28 @@ const categories = [
     categoryName: "Kuhano",
     foodList: [
       {
-        foodName: "Gulas", description: "Paradajz sos, sunka, sir, gljive",
+        foodName: "Gulas", 
+        description: "Paradajz sos, sunka, sir, gljive",
         options: [
           { price: 3 },
         ],
-        condiments: [
-          {}
-        ]
+        condiments: []
       },
       {
-        foodName: "Supa", description: "Paradajz sos, sunka, sir, gljive",
+        foodName: "Supa", 
+        description: "Paradajz sos, sunka, sir, gljive",
         options: [
           { price: 3 },
         ],
+        condiments: []
       },
       {
-        foodName: "Corba", description: "Paradajz sos, sunka, sir, gljive",
+        foodName: "Corba", 
+        description: "Paradajz sos, sunka, sir, gljive",
         options: [
           { price: 3 },
         ],
+        condiments: []
       },
     ]
   },
@@ -44,18 +47,31 @@ const categories = [
     categoryName: "Roštilj",
     foodList: [
       {
-        foodName: "Cevapi", description: "Paradajz sos, sunka, sir, gljive",
+        foodName: "Cevapi", 
+        description: "Paradajz sos, sunka, sir, gljive",
         options: [
           { option: "mali", price: 9 },
           { option: "srednji", price: 3 },
           { option: "veliki", price: 4 },
         ],
+        condiments: [
+          { condimentName: "Kečap " },
+          { condimentName: "Senf " },
+          { condimentName: "Mjonez " },
+        ]
       },
       {
-        foodName: "Pljeskavica", description: " ",
+        foodName: "Pljeskavica", 
+        description: "Paradajz sos, sunka, sir, gljive... Prilog po želji. ",
         options: [
           { price: 3 },
         ],
+        condiments: [
+          { condimentName: "Kečap " },
+          { condimentName: "Senf " },
+          { condimentName: "Majonez " },
+          { condimentName: "Pomfrit" },
+        ]
       },
     ]
   },
@@ -63,38 +79,48 @@ const categories = [
     categoryName: "Doručak",
     foodList: [
       {
-        foodName: "Jaja", description: "Kuhana, pržena, ...",
+        foodName: "Jaja", 
+        description: "Kuhana, pržena, ...",
         options: [
           { price: 3 },
+        ],
+        condiments: [
+          { condimentName: "kečap" },
+          { condimentName: "senf" },
+          { condimentName: "majonez" },
+          { condimentName: "tartar sos" },
         ],
       },
       {
-        foodName: "Hrenovke", description: "Kuhane, pržene, ...",
+        foodName: "Hrenovke", 
+        description: "Kuhane, pržene, porcija od 300g + pogačice ...",
         options: [
           { price: 3 },
         ],
+        condiments: [
+          { condimentName: "senf" },
+          { condimentName: "kečap" },
+          { condimentName: "majonez" },
+        ]
       },
     ]
   },
 ]
 
 class Menu extends Component {
-  constructor(props) {
+ /* constructor(props) {
     super(props);
     // Don't call this.setState() here!
    // this.toggleOrderDialog = this.toggleOrderDialog.bind(this);
-  }
+  }*/
   state = {
     orderDialogOpen: false,
   };
   toggleOrderDialog = (selectedFood) => {
-    console.log(selectedFood)
     this.setState({ orderDialogOpen: !this.state.orderDialogOpen, selectedFood})
   }
 
   render() {
-
-    console.log('sf', this.state.selectedFood)
 
     const categoryNames = categories.map(category => category.categoryName)
 
@@ -114,7 +140,7 @@ class Menu extends Component {
             }</div>
           <div> <OrderBasket /> </div>
         </div>
-          { orderDialogOpen && <OrderDialog orderDialogOpen={orderDialogOpen} toggleOrderDialog={this.toggleOrderDialog} selectedFood={this.state.selectedFood}></OrderDialog> }
+          { orderDialogOpen && <OrderDialog toggleOrderDialog={this.toggleOrderDialog} selectedFood={this.state.selectedFood}></OrderDialog> }
       </Fragment>
     );
   }

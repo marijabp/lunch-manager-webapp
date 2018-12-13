@@ -46,6 +46,7 @@ class MenuCategory extends Component{
                 foodName={foods.foodName}
                 description={foods.description}
                 options={foods.options}
+                condiments={foods.condiments}
                 toggleOrderDialog={toggleOrderDialog}
                 key={'foodName'+i}/>
                 

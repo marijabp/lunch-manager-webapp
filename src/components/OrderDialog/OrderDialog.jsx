@@ -6,6 +6,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import CondimentOrder from '../CondimentOrder';
+import PortionSize from '../PortionSIze'
 import './OrderDialog.css';
 
 
@@ -19,19 +21,23 @@ export default class OrderDialog extends React.Component {
 
   render() {
 
-    const { foodName, description, options } = this.props.selectedFood
+    const { foodName, options, condiments } = this.props.selectedFood
+    //const allCondiments=condiments.map(condiment => condiment.condiment )
+    //console.log(allCondiments)
     return (
       <div>
         <Dialog
-          open={this.props.orderDialogOpen}
+          open
           onClose={this.props.toggleOrderDialog}
           aria-labelledby="form-dialog-title"
         >
           <DialogTitle id="form-dialog-title">{foodName}</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              {options.length>1 ? 'vise':'manje' }
+
             </DialogContentText>
+            <div>{condiments.length > 0 && <CondimentOrder condiments={condiments}> </CondimentOrder> }</div>
+            <div>{options.length > 1 && <PortionSize options={options}></PortionSize>}</div>
             <TextField
               autoFocus
               margin="dense"

@@ -35,8 +35,8 @@ class CategoryList extends React.Component {
         {categoryNames.map(name =>  {
           return <ListItem
             button
-            selected={this.state.selectedIndex === 0}
-            onClick={event => this.handleListItemClick(event, 0) }
+            selected={this.state[name]}
+            onClick={event => this.handleListItemClick(name) }
             key={name}
           >
           

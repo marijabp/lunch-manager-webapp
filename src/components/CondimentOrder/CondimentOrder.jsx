@@ -47,7 +47,7 @@ class CondimentOrder extends Component{
                 label= {condiment.condimentName}/>}
             )}
             </FormGroup>
-            <FormHelperText>Be careful</FormHelperText>
+            <FormHelperText></FormHelperText>
           </FormControl>
         );
     }

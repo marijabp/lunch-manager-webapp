@@ -34,11 +34,10 @@ export default class OrderDialog extends React.Component {
           <DialogTitle id="form-dialog-title">{foodName}</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              {options.length > 1 ? 'najvise' : 'najmanje'}
 
             </DialogContentText>
-            <CondimentOrder condiments={condiments}> </CondimentOrder>
-            <PortionSize options={options}></PortionSize>
+            <div>{condiments.length > 0 && <CondimentOrder condiments={condiments}> </CondimentOrder> }</div>
+            <div>{options.length > 1 && <PortionSize options={options}></PortionSize>}</div>
             <TextField
               autoFocus
               margin="dense"

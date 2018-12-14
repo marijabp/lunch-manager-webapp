@@ -18,8 +18,8 @@ const categories = [
     categoryName: "Kuhano",
     foodList: [
       {
-        foodName: "Gulas", 
-        description: "Paradajz sos, sunka, sir, gljive",
+        foodName: "Gulaš", 
+        description: "Paradajz sos, šunka, sir, gljive",
         options: [
           { price: 3 },
         ],
@@ -27,15 +27,15 @@ const categories = [
       },
       {
         foodName: "Supa", 
-        description: "Paradajz sos, sunka, sir, gljive",
+        description: "Paradajz sos, šunka, sir, gljive",
         options: [
           { price: 3 },
         ],
         condiments: []
       },
       {
-        foodName: "Corba", 
-        description: "Paradajz sos, sunka, sir, gljive",
+        foodName: "Čorba", 
+        description: "Paradajz sos, šunka, sir, gljive",
         options: [
           { price: 3 },
         ],
@@ -47,8 +47,8 @@ const categories = [
     categoryName: "Roštilj",
     foodList: [
       {
-        foodName: "Cevapi", 
-        description: "Paradajz sos, sunka, sir, gljive",
+        foodName: "Ćevapi", 
+        description: "Paradajz sos, šunka, sir, gljive",
         options: [
           { option: "mali", price: 9 },
           { option: "srednji", price: 3 },
@@ -62,7 +62,7 @@ const categories = [
       },
       {
         foodName: "Pljeskavica", 
-        description: "Paradajz sos, sunka, sir, gljive... Prilog po želji. ",
+        description: "Paradajz sos, šunka, sir, gljive... Prilog po želji. ",
         options: [
           { price: 3 },
         ],

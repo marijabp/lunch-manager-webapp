@@ -6,31 +6,25 @@ import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 
 class PortionSize extends Component {
-    state = {
-        value: 'female',
-      };
-    
-      handleChange = event => {
-        this.setState({ value: event.target.value });
-      };
-
+   
     render() {
-        const { options }= this.props
+        const { options, chosenOption, handleChangeOption } = this.props
         return (
             <FormControl component="fieldset" >
                 <FormLabel component="legend">Veličina porcije</FormLabel>
                 <RadioGroup
-                    aria-label="Gender"
-                    name="gender1"
-                    value={this.state.value}
-                    onChange={this.handleChange}
+                    aria-label="PortionSize"
+                    name="portionsize"
+                    value={chosenOption || options[0].option}
+                    onChange={handleChangeOption}
                 >
-                {options.map(({ option }) => {
-                return     <FormControlLabel
-                        key={option}
-                        value={option}
-                        control={<Radio color="primary" />}
-                label={option} />})}
+                    {options.map( item => {
+                        return <FormControlLabel
+                            key={item.option}
+                            value={item.option}
+                            control={<Radio color="primary"/>}
+                            label={item.option + " (" + item.price + "KM)"}/>
+                    })}
 
                 </RadioGroup>
             </FormControl>

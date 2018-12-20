@@ -8,7 +8,8 @@ const styles = {
   menuStyle: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-around"
+    justifyContent: "space-around",
+    flexWrap: "wrap",
 
   }
 }
@@ -18,26 +19,26 @@ const categories = [
     categoryName: "Kuhano",
     foodList: [
       {
-        foodName: "Gulaš", 
+        foodName: "Gulaš",
         description: "Paradajz sos, šunka, sir, gljive",
         options: [
-          { price: 3 },
+          { option: "", price: 3, },
         ],
         condiments: []
       },
       {
-        foodName: "Supa", 
+        foodName: "Supa",
         description: "Paradajz sos, šunka, sir, gljive",
         options: [
-          { price: 3 },
+          { option: "", price: 3 },
         ],
         condiments: []
       },
       {
-        foodName: "Čorba", 
+        foodName: "Čorba",
         description: "Paradajz sos, šunka, sir, gljive",
         options: [
-          { price: 3 },
+          { option: "", price: 3 },
         ],
         condiments: []
       },
@@ -47,7 +48,7 @@ const categories = [
     categoryName: "Roštilj",
     foodList: [
       {
-        foodName: "Ćevapi", 
+        foodName: "Ćevapi",
         description: "Paradajz sos, šunka, sir, gljive",
         options: [
           { option: "mali", price: 9 },
@@ -57,11 +58,11 @@ const categories = [
         condiments: [
           { condimentName: "Kečap " },
           { condimentName: "Senf " },
-          { condimentName: "Mjonez " },
+          { condimentName: "Majonez " },
         ]
       },
       {
-        foodName: "Pljeskavica", 
+        foodName: "Pljeskavica",
         description: "Paradajz sos, šunka, sir, gljive... Prilog po želji. ",
         options: [
           { price: 3 },
@@ -79,8 +80,8 @@ const categories = [
     categoryName: "Doručak",
     foodList: [
       {
-        foodName: "Jaja", 
-        description: "Kuhana, pržena, ...",
+        foodName: "Jaja",
+        description: "Kuhane, pržene, porcija od 300g + pogačice ...",
         options: [
           { price: 3 },
         ],
@@ -92,7 +93,7 @@ const categories = [
         ],
       },
       {
-        foodName: "Hrenovke", 
+        foodName: "Hrenovke",
         description: "Kuhane, pržene, porcija od 300g + pogačice ...",
         options: [
           { price: 3 },
@@ -108,24 +109,26 @@ const categories = [
 ]
 
 class Menu extends Component {
- /* constructor(props) {
-    super(props);
-    // Don't call this.setState() here!
-   // this.toggleOrderDialog = this.toggleOrderDialog.bind(this);
-  }*/
+  /* constructor(props) {
+     super(props);
+     // Don't call this.setState() here!
+    // this.toggleOrderDialog = this.toggleOrderDialog.bind(this);
+   }*/
   state = {
     orderDialogOpen: false,
   };
   toggleOrderDialog = (selectedFood) => {
-    this.setState({ orderDialogOpen: !this.state.orderDialogOpen, selectedFood})
+    this.setState({ orderDialogOpen: !this.state.orderDialogOpen, selectedFood })
   }
+
 
   render() {
 
     const categoryNames = categories.map(category => category.categoryName)
 
-    const {orderDialogOpen}=this.state
-
+    const { orderDialogOpen } = this.state
+    console.log(this.props.emailLogIn)
+    console.log(this.state.emailLogIn)
     return (
       <Fragment>
         <div style={styles.menuStyle}>
@@ -138,9 +141,9 @@ class Menu extends Component {
                 category={category} />
             })
             }</div>
-          <div> <OrderBasket /> </div>
+          <div> <OrderBasket selectedFood={this.state.selectedFood} orderDialogOpen={this.state.orderDialogOpen} /> </div>
         </div>
-          { orderDialogOpen && <OrderDialog toggleOrderDialog={this.toggleOrderDialog} selectedFood={this.state.selectedFood}></OrderDialog> }
+        {orderDialogOpen && <OrderDialog toggleOrderDialog={this.toggleOrderDialog} selectedFood={this.state.selectedFood}></OrderDialog>}
       </Fragment>
     );
   }

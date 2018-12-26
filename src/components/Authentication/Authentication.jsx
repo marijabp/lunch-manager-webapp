@@ -43,7 +43,7 @@ class Authentication extends Component {
     constructor(props) {
         super(props);
         this.state = {
-           // emailLogIn: "",
+            // emailLogIn: "",
             emailLogInErrorMessage: "",
 
             passwordLogIn: "",
@@ -92,7 +92,6 @@ class Authentication extends Component {
     handleInputPassword = event => {
         this.setState({ password: event.target.value })
     }
-
     handleInputPassword1 = event => {
         this.setState({ password1: event.target.value })
     }
@@ -115,13 +114,14 @@ class Authentication extends Component {
             }
         }
         if (this.state.name === "") {
-            nameErrorMessage = "empty full name";
+            nameErrorMessage = "input name";
             valid = false;
         }
         if (this.state.surname === "") {
-            surnameErrorMessage = "empty full name";
+            surnameErrorMessage = "empty surname";
             valid = false;
         }
+
         if (!(this.state.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) || !emailUnique) {
             emailErrorMessage = "invalid email";
             valid = false;
@@ -153,9 +153,11 @@ class Authentication extends Component {
                 localStorage.setItem("users", JSON.stringify(users));
             }
 
-            const user = { role: this.state.role, email: this.state.email, password: this.state.password }
+            const user = { role: this.state.role, email: this.state.email, password: this.state.password, name: this.state.name }
             users.push(user)
             localStorage.setItem("users", JSON.stringify(users));
+            this.props.changeRole(this.state.role);
+            this.props.changeEmail(this.state.email);
             this.props.logIn();
         }
     }
@@ -164,11 +166,14 @@ class Authentication extends Component {
         let users = JSON.parse(localStorage.getItem('users'))
         let valid = false;
         let emailLogInErrorMessage = "Input valid email";
+        let role = "";
+
         let passwordLogInErrorMessage = "Wrong password";
         if (users) {
             for (let i = 0; i < users.length; i++) {
                 if (users[i].email === this.state.emailLogIn && users[i].password === this.state.passwordLogIn) {
                     valid = true;
+                    role = users[i].role;
                     emailLogInErrorMessage = "";
                     passwordLogInErrorMessage = "";
                 }
@@ -188,22 +193,24 @@ class Authentication extends Component {
         this.setState({ passwordLogInErrorMessage })
         if (valid) {
             this.props.logIn();
+            this.props.changeEmail(this.state.emailLogIn)
+            this.props.changeRole(role);
         }
 
     }
 
 
     render() {
+        console.log(this.state.emailLogIn)
         return (
             <div style={styles.design}>
                 <div style={styles.logIn}>
                     <Paper style={styles.paper}>
                         <form autoComplete="off">
                             <div><TextField
-                                id="standard-required"
-                                error={this.state.emailLogInErrorMessage}
+                                // id="standard-required"
+                                error={this.state.emailLogInErrorMessage !== ""}
                                 label="E-mail"
-                                placeholder='e-mail'
                                 value={this.state.emailLogIn}
                                 onChange={this.handleInputEmailLogIn}
                                 margin="normal"
@@ -211,8 +218,8 @@ class Authentication extends Component {
                             <ErrorMessage> {this.state.emailLogInErrorMessage} </ErrorMessage>
 
                             <div><TextField
-                                id="standard-password-input"
-                                error={this.state.passwordLogInErrorMessage}
+                                // id="standard-password-input"
+                                error={this.state.passwordLogInErrorMessage !== ""}
                                 label="Password"
                                 type="password"
                                 autoComplete="current-password"
@@ -223,7 +230,7 @@ class Authentication extends Component {
                             <ErrorMessage> {this.state.passwordLogInErrorMessage}</ErrorMessage>
 
                             <div><Button onClick={this.handleClickLogIn}> Log in </Button></div>
-                            
+
 
                         </form></Paper>
                 </div>
@@ -245,8 +252,8 @@ class Authentication extends Component {
                                 </RadioGroup>
                             </FormControl>
                             <div><TextField
-                                id="standard-required"
-                                error={this.state.nameErrorMessage}
+                               // id="standard-required"
+                                error={this.state.nameErrorMessage !== ""}
                                 label="Name"
                                 value={this.state.name}
                                 onChange={this.handleInputName}
@@ -256,22 +263,22 @@ class Authentication extends Component {
 
 
                             <div>
-                              {this.state.role==="Restaurant"  ?  " " : 
-                                <TextField
-                                id="standard-required"
-                                error={this.state.surnameErrorMessage}
-                                label="Surname"
-                                value={this.state.surname}
-                                onChange={this.handleInputSurname}
-                                margin="normal"
-        />  }
+                                {this.state.role === "Restaurant" ? " " :
+                                    <TextField
+                                       // id="standard-required"
+                                        error={this.state.surnameErrorMessage !== ""}
+                                        label="Surname"
+                                        value={this.state.surname}
+                                        onChange={this.handleInputSurname}
+                                        margin="normal"
+                                    />}
                             </div>
                             <ErrorMessage>{this.state.surnameErrorMessage}</ErrorMessage>
 
                             <div><TextField
-                                id="standard-required"
+                               // id="standard-required"
                                 label="E-mail"
-                                error={this.state.emailErrorMessage}
+                                error={this.state.emailErrorMessage !== ""}
                                 value={this.state.email}
                                 onChange={this.handleInputEmail}
                                 margin="normal"
@@ -279,8 +286,8 @@ class Authentication extends Component {
                             <ErrorMessage>{this.state.emailErrorMessage}</ErrorMessage>
 
                             <div><TextField
-                                id="standard-password-input"
-                                error={this.state.passwordErrorMessage}
+                               // id="standard-password-input"
+                                error={this.state.passwordErrorMessage !== ""}
                                 label="Password"
                                 type="password"
                                 margin="normal"
@@ -290,9 +297,9 @@ class Authentication extends Component {
                             <ErrorMessage>{this.state.passwordErrorMessage}</ErrorMessage>
 
                             <div> <TextField
-                                id="standard-password-input"
-                                error={this.state.password1ErrorMessage}
-                                label="Password1"
+                               // id="standard-password-input"
+                                error={this.state.password1ErrorMessage !== ""}
+                                label="Repeat password!"
                                 type="password"
                                 margin="normal"
                                 value={this.state.password1}
@@ -300,7 +307,6 @@ class Authentication extends Component {
                             /></div>
                             <ErrorMessage>{this.state.password1ErrorMessage} </ErrorMessage>
                             <div> <Button onClick={this.handleClickRegister}> Register </Button></div>
-
                         </form></Paper>
                 </div>
             </div>

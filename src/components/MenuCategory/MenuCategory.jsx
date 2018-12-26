@@ -6,13 +6,13 @@ const styles = {
     foodNameText: {
         padding:10,
         fontSize:30, 
-        width:"500px",
+        maxWidth:"500px",
         fontFamily: "Comic Sans MS",
     },
     menuCategory: {
-        backgroundColor: "rgb(245, 245, 245)", 
+        backgroundColor: "rgb(161, 165, 170)", 
         flexFlow: "row wrap" ,
-        width: "480px" ,
+        maxWidth: "480px" ,
         justifyContent: "space-between" ,
         display: "flex" ,
         marginBottom:"20px",
@@ -22,8 +22,9 @@ const styles = {
     paper: {
         marginTop: "20px" ,
         elevation: 4,
-        width: "510px",
-        padding: "5px", 
+        maxWidth: "510px",
+        padding: "5px",
+        backgroundColor:"rgb(245, 245, 245)",
     }
 }
   

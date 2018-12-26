@@ -7,7 +7,7 @@ const styles = {
         fontFamily: "Comic Sans MS",
     },
     foodItem: {
-        backgroundColor: "rgb(245, 245, 245)",
+        backgroundColor: "rgb(161, 165, 170)",
         borderBottom: "1px solid gray",
         display: "flex",
         width: "200px",

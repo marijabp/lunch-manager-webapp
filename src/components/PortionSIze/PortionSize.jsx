@@ -9,6 +9,7 @@ class PortionSize extends Component {
    
     render() {
         const { options, chosenOption, handleChangeOption } = this.props
+        
         return (
             <FormControl component="fieldset" >
                 <FormLabel component="legend">Veličina porcije</FormLabel>

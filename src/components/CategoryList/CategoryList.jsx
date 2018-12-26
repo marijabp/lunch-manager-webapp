@@ -9,9 +9,9 @@ import Paper from '@material-ui/core/Paper';
 const styles = theme => ({
   root: {
     marginTop: "20px" ,
-    width: '100%',
+    width: '100px',
     maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: "rgb(245, 245, 245)",
   },
 });
 
@@ -26,21 +26,20 @@ class CategoryList extends React.Component {
 
   render() {
 
-    const { classes, categoryNames } = this.props;
-
+    const { classes, restaurantMenu } = this.props;
     return (
       <Paper>
       <div className={classes.root}>
         <List component="nav">
-        {categoryNames.map(name =>  {
+        {restaurantMenu.map(name =>  {
           return <ListItem
             button
-            selected={this.state[name]}
+            selected={this.state[name.categoryName]}
             onClick={event => this.handleListItemClick(name) }
-            key={name}
+            key={name.categoryName}
           >
           
-          <ListItemText>{name}</ListItemText>
+          <ListItemText>{name.categoryName}</ListItemText>
           </ListItem>})}
         </List>
       </div>

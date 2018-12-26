@@ -24,7 +24,12 @@ const styles = {
 
 export default class OrderDialog extends React.Component {
   state = {
-
+    orderOptions: {
+      portionSize:"",
+      portionQuantity: 1,
+      condiments: [],
+      chosenOption:"",
+    }
   }
 
   handleClose = () => {
@@ -43,8 +48,11 @@ export default class OrderDialog extends React.Component {
   getChosenPrice() {
     const chosenOption = this.state.chosenOption
     for (let i = 0; i < this.props.selectedFood.options.length; i++) {
-      if (chosenOption === this.props.selectedFood.options[i].option) return this.props.selectedFood.options[i].price;
+      if (chosenOption === this.props.selectedFood.options[i].option)
+        return this.props.selectedFood.options[i].price;
     }
+    return this.props.selectedFood.minPrice;
+
   };
 
   handleMenuItemClick = (event, index) => {
@@ -54,14 +62,20 @@ export default class OrderDialog extends React.Component {
   handleClickListItem = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
-
-
-
+ 
+  handleAdd = () => {
+    const chosenFood=this.props.selectedFood.foodName
+    var price=this.getChosenPrice() * (this.state.selectedIndex)
+  
+    this.props.changeBasketState( chosenFood + ' - '+ price + '  KM', price )
+    this.props.total(price);
+    this.props.toggleOrderDialog();
+  }
   render() {
-
     const { foodName, options, condiments, minPrice } = this.props.selectedFood
     const { chosenOption, anchorEl, selectedIndex = 0 } = this.state
     options.sort(this.compareOptionsByPrice)
+    
     return (
       <div>
         <Dialog
@@ -69,7 +83,7 @@ export default class OrderDialog extends React.Component {
           onClose={this.props.toggleOrderDialog}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title"><div style={styles.dialogTitle}>{foodName} {formatPrice(this.getChosenPrice() * (selectedIndex + 1) || (minPrice * (selectedIndex + 1)))} </div></DialogTitle>
+          <DialogTitle id="form-dialog-title"><div style={styles.dialogTitle}>{foodName} {formatPrice(this.getChosenPrice() * (selectedIndex) || (minPrice))} </div></DialogTitle>
           <DialogContent>
             <DialogContentText>
 
@@ -90,8 +104,8 @@ export default class OrderDialog extends React.Component {
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={this.handleClose} color="primary">
-              Submit
+            <Button onClick={this.handleAdd} color="primary">
+              Add to Basket
             </Button>
           </DialogActions>
         </Dialog>

@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import Menu from '../Menu';
 import listOfRestaurants from '../../data/restaurants';
 import OrderBasket from '../OrderBasket';
+import Background from '../../images/restaurantmenu.jpg';
 
 import CategoryList from '../CategoryList';
 const styles = {
-    all: {
+    main: {
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-around",
         flexWrap: "wrap",
+        backgroundImage: "url(" + Background + ")",
+        backgroundSize: "100%",
     },
 
 }
@@ -47,8 +50,8 @@ class Restaurant extends Component {
         const restaurant = listOfRestaurants.filter(restaurant => restaurant.routeName === restaurantName)[0]
         const restaurantMenu = restaurant.menu
         return (
-            <div style={styles.all}>
-             <div className="categoryList"> <CategoryList restaurantMenu={restaurantMenu}></CategoryList></div>
+            <div style={styles.main}>
+                <div> <CategoryList restaurantMenu={restaurantMenu}></CategoryList></div>
                 <div><Menu restaurantMenu={restaurantMenu} total={this.total} changeBasketState={this.changeBasketState}></Menu></div>
                 <div>  <OrderBasket handleRemoveItem={this.handleRemoveItem} totalRemove={this.totalRemove} chosenFood={chosenFood} totalPrice={totalPrice}></OrderBasket></div>
             </div>

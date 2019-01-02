@@ -4,7 +4,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
-import FormHelperText from '@material-ui/core/FormHelperText';
 
 class CondimentOrder extends Component{
     state = {
@@ -19,16 +18,7 @@ class CondimentOrder extends Component{
         const { condiments } = this.props
 
         return(
-            /* condiments.map(condiment => {
-                 console.log(condiment.condiment)
-                return <Checkbox
-                    checked={this.state.checkedA}
-                    onChange={this.handleChange('checkedA')}
-                    value="checkedA"
-                    color="primary"
-                    key= {condiment.condiment}> 123 </Checkbox>
-                }
-            )*/
+           
 
             <FormControl component="fieldset">
             <FormLabel component="legend">Prilozi</FormLabel>
@@ -47,7 +37,6 @@ class CondimentOrder extends Component{
                 label= {condiment.condimentName}/>}
             )}
             </FormGroup>
-            <FormHelperText></FormHelperText>
           </FormControl>
         );
     }

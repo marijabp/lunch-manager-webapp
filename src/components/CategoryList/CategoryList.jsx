@@ -9,10 +9,16 @@ import Paper from '@material-ui/core/Paper';
 const styles = theme => ({
   root: {
     marginTop: "20px" ,
-    width: '100px',
-    maxWidth: 360,
+    width: '120px',
+    maxWidth: "360px",
     backgroundColor: "rgb(245, 245, 245)",
+    
   },
+  item: {
+    '&:hover': {
+      background: "rgb(161, 165, 170)",
+    },
+  }
 });
 
 class CategoryList extends React.Component {
@@ -33,13 +39,14 @@ class CategoryList extends React.Component {
         <List component="nav">
         {restaurantMenu.map(name =>  {
           return <ListItem
+            className={classes.item}
             button
             selected={this.state[name.categoryName]}
             onClick={event => this.handleListItemClick(name) }
             key={name.categoryName}
           >
           
-          <ListItemText>{name.categoryName}</ListItemText>
+          <ListItemText >{name.categoryName}</ListItemText>
           </ListItem>})}
         </List>
       </div>

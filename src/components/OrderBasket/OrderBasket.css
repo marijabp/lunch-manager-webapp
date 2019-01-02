@@ -1,6 +1,6 @@
 .orderBasket {
     padding: 3px;
-    font-family: 'Courier New', Courier, monospace; 
+    font-family: 'San Francisco', Courier, monospace; 
     background-color:rgb(161, 165, 170);
     display: flex;
     flex-direction: column;

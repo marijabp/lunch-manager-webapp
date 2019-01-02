@@ -1,11 +1,10 @@
-export const Angelo = {
-    name: "Angelo",
-    routeName: "Angelo",
-    description: "fina hrana i tako ........",
-    minOrderPrice: 10,
-    workTime: "08.00 - 22.00",
-    closingHours: "22:00",
-    address: "dfsas",
+export const CapCap = {
+    name: "Cap-cap",
+    routeName: "Cap-cap",
+    description: "fina hrana i tako",
+    minOrderPrice: 6,
+    closingHours: "21:00",
+    address: "dadadasda",
     menu: [
       {
         categoryName: "Kuhano",
@@ -99,4 +98,5 @@ export const Angelo = {
         ]
       },
     ],
+  
   }

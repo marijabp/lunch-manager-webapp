@@ -1,0 +1,12 @@
+.main {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.password{
+    max-width: 200px;
+}
+.address{
+    max-width: 200px;
+}

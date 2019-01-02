@@ -8,17 +8,15 @@ const styles = {
     paper: {
         marginTop: "20px",
         elevation: 4,
-        maxWidth: "400px",
+        width: "300px",
         padding: "5px",
-       /* borderStyle: "solid",
-        borderColor: "coral",
-        borderWidth: "1px",*/
-        backgroundColor:"rgb(245, 245, 245)",
+        backgroundColor: "rgb(245, 245, 245)",
     },
     foods: {
         display: "flex",
         flexDirection: "row",
         justifyContent: 'space-between',
+
     },
     header: {
         fontWeight: "bold",
@@ -56,9 +54,10 @@ class OrderBasket extends Component {
                             ))}
                         </div>
                         <div>Ukupno: {totalPrice} KM</div>
-                        <Button variant="outlined" color="primary">Naruči</Button>
+                        <Button variant="outlined" color="default">Naruči</Button>
                     </div>
-                </Paper></Fragment>
+                </Paper>
+            </Fragment>
         );
     }
 }

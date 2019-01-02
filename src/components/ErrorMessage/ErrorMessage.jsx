@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 const styles = {
     fontStyle: "italic",
     color: "rgb(255, 0, 0)",
-    backgroundColor: "white",
+    backgroundColor: "inherit",
 }
 class ErrorMessage extends Component {
     render(){

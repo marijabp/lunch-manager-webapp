@@ -1,6 +1,5 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -25,10 +24,10 @@ const styles = {
 export default class OrderDialog extends React.Component {
   state = {
     orderOptions: {
-      portionSize:"",
+      portionSize: "",
       portionQuantity: 1,
       condiments: [],
-      chosenOption:"",
+      chosenOption: "",
     }
   }
 
@@ -62,12 +61,12 @@ export default class OrderDialog extends React.Component {
   handleClickListItem = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
- 
+
   handleAdd = () => {
-    const chosenFood=this.props.selectedFood.foodName
-    var price=this.getChosenPrice() * (this.state.selectedIndex)
-  
-    this.props.changeBasketState( chosenFood + ' - '+ price + '  KM', price )
+    const chosenFood = this.props.selectedFood.foodName
+    var price = this.getChosenPrice() * (this.state.selectedIndex)
+
+    this.props.changeBasketState(chosenFood + ' - ' + price + '  KM', price)
     this.props.total(price);
     this.props.toggleOrderDialog();
   }
@@ -75,7 +74,7 @@ export default class OrderDialog extends React.Component {
     const { foodName, options, condiments, minPrice } = this.props.selectedFood
     const { chosenOption, anchorEl, selectedIndex = 0 } = this.state
     options.sort(this.compareOptionsByPrice)
-    
+
     return (
       <div>
         <Dialog
@@ -91,14 +90,6 @@ export default class OrderDialog extends React.Component {
             <div>{condiments.length > 0 && <CondimentOrder condiments={condiments}> </CondimentOrder>}</div>
             <div>{options.length > 1 && <PortionSize handleChangeOption={this.handleChangeOption} chosenOption={chosenOption} options={options}></PortionSize>}</div>
             <div><PortionQuantity anchorEl={anchorEl} selectedIndex={selectedIndex} handleClickListItem={this.handleClickListItem} handleMenuItemClick={this.handleMenuItemClick} /></div>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Email Address"
-              type="email"
-              fullWidth
-            />
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">

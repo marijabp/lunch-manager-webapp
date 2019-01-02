@@ -3,11 +3,11 @@ import MenuCategory from '../MenuCategory';
 import OrderDialog from '../OrderDialog';
 
 const styles = {
-  menuStyle: {
+  main: {
     display: "flex",
     flexDirection: "row",
     alignSelf: "flex-start",
-     flexWrap: "wrap",
+    flexWrap: "wrap",
 
   }
 }
@@ -27,8 +27,8 @@ class Menu extends Component {
 
     return (
       <Fragment>
-        <div style={styles.menuStyle}>
-         
+        <div style={styles.main}>
+
           <div>
             {restaurantMenu.map(category => {
               return <MenuCategory

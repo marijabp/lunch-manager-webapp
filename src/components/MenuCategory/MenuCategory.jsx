@@ -4,8 +4,8 @@ import FoodItem from '../FoodItem';
 
 const styles = {
     foodNameText: {
-        padding:10,
-        fontSize:30, 
+        padding: "10px",
+        fontSize:"30px", 
         maxWidth:"500px",
         fontFamily: "Comic Sans MS",
     },
@@ -21,7 +21,6 @@ const styles = {
     },
     paper: {
         marginTop: "20px" ,
-        elevation: 4,
         maxWidth: "510px",
         padding: "5px",
         backgroundColor:"rgb(245, 245, 245)",

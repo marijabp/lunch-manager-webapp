@@ -2,10 +2,6 @@ import React, { Component, Fragment } from 'react';
 import { formatPrice } from '../../Utils/PriceUtil';
 
 const styles = {
-    foodPriceText: {
-        fontSize: 20,
-        fontFamily: "Comic Sans MS",
-    },
     foodItem: {
         backgroundColor: "rgb(161, 165, 170)",
         borderBottom: "1px solid gray",
@@ -15,24 +11,26 @@ const styles = {
         flexDirection: "row",
         flexWrap: "wrap",
         padding: "10px",
+        cursor: "pointer",
         // fontFamily: "Comic Sans MS",
     },
     name: {
         display: "flex",
         justifyContent: "flex-start",
-        fontSize: 17,
+        fontSize: "18px",
         fontFamily: "Comic Sans MS",
-        cursor: "pointer",
+        
     },
     price: {
         display: "flex",
         alignSelf: "flex-end",
-        fontSize: 17,
+        fontSize: "18px",
+
     },
     description: {
-        fontSize: 13,
+        fontSize: "16px",
         fontFamily: "Comic Sans MS",
-        fontStyle: "normal",
+        
     }
 }
 
@@ -52,8 +50,8 @@ class FoodItem extends Component {
         const minPrice = this.getMinPrice()
         return (
             <Fragment>
-                <div style={styles.foodItem}>
-                    <div style={styles.name} onClick={() => this.handleClick({ foodName, options, description, condiments, minPrice })}> {foodName} </div>
+                <div style={styles.foodItem} onClick={() => this.handleClick({ foodName, options, description, condiments, minPrice })}>
+                    <div style={styles.name} > {foodName} </div>
                     <div style={styles.price}> {formatPrice(minPrice)} </div>
                     <div style={styles.description}> {description} </div>
                 </div>

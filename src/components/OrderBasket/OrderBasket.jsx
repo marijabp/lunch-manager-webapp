@@ -32,7 +32,7 @@ class OrderBasket extends Component {
         let i1 = removed[0].indexOf('-') //index of -
         let i2 = removed[0].indexOf(' ', i1); // index of 1. space
         let i3 = removed[0].indexOf(' ', i2 + 1); // index of 2. space
-        var number = parseInt(removed[0].slice(i2, i3)) // izdvaja broj
+        var number = parseInt(removed[0].slice(i2, i3)).toFixed(2) // izdvaja broj
         this.props.totalRemove(number)
         this.props.handleRemoveItem(chosenFood);
 

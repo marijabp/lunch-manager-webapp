@@ -21,10 +21,10 @@ class PortionSize extends Component {
                 >
                     {options.map( item => {
                         return <FormControlLabel
-                            key={item.option}
-                            value={item.option}
+                            key={item.name}
+                            value={item.name}
                             control={<Radio color="primary"/>}
-                            label={item.option + " (" + item.price + "KM)"}/>
+                            label={item.name + " (" + item.price + "KM)"}/>
                     })}
 
                 </RadioGroup>

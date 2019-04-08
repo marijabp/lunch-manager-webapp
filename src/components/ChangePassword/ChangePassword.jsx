@@ -41,7 +41,7 @@ class ChangePassword extends Component {
     }
     passwordValidation = () => {
         let valid = true;
-        let email = this.props.emailLogIn;
+        let email = this.props.loginEmail;
         let oldPassErrorMessage = "";
         let newPass = this.state.newPass;
         let newPassErrorMessage = "";
@@ -72,7 +72,7 @@ class ChangePassword extends Component {
         let valid = this.passwordValidation();
         let oldPass = this.state.oldPass
         let users = JSON.parse(localStorage.getItem('users'))
-        let email = this.props.emailLogIn;
+        let email = this.props.loginEmail;
         if (valid) {
             for (let i = 0; i < users.length; i++) {
                 if (users[i].email === email) {

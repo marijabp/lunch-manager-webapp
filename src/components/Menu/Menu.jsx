@@ -16,15 +16,18 @@ const styles = {
 class Menu extends Component {
   state = {
     orderDialogOpen: false,
+    restaurantMenu: [],
   };
   toggleOrderDialog = (selectedFood) => {
     this.setState({ orderDialogOpen: !this.state.orderDialogOpen, selectedFood })
   }
 
-  render() {
-    const { restaurantMenu, changeBasketState, total } = this.props
-    const { orderDialogOpen, selectedFood } = this.state
+  
 
+  render() {
+    const { changeBasketState, total, restaurantMenu } = this.props
+    const { orderDialogOpen, selectedFood } = this.state
+    console.log(this.props.restaurantMenu)
     return (
       <Fragment>
         <div style={styles.main}>
@@ -33,8 +36,9 @@ class Menu extends Component {
             {restaurantMenu.map(category => {
               return <MenuCategory
                 toggleOrderDialog={this.toggleOrderDialog}
-                key={category.categoryName}
-                category={category} />
+                key={category.categoryId}
+                category={category}
+                 />
             })
             }</div>
         </div>

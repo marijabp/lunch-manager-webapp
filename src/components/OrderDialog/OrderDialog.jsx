@@ -48,10 +48,9 @@ export default class OrderDialog extends React.Component {
     const chosenOption = this.state.chosenOption
     for (let i = 0; i < this.props.selectedFood.options.length; i++) {
       if (chosenOption === this.props.selectedFood.options[i].option)
-        return this.props.selectedFood.options[i].price;
+        return Number(Math.round(this.props.selectedFood.options[i].price+'e'+2)+'e-'+2);
     }
-    return this.props.selectedFood.minPrice;
-
+    return Number(Math.round(this.props.selectedFood.minPrice+'e'+2)+'e-'+2);
   };
 
   handleMenuItemClick = (event, index) => {
@@ -74,7 +73,7 @@ export default class OrderDialog extends React.Component {
     const { foodName, options, condiments, minPrice } = this.props.selectedFood
     const { chosenOption, anchorEl, selectedIndex = 0 } = this.state
     options.sort(this.compareOptionsByPrice)
-
+    console.log(selectedIndex)
     return (
       <div>
         <Dialog
@@ -82,7 +81,7 @@ export default class OrderDialog extends React.Component {
           onClose={this.props.toggleOrderDialog}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title"><div style={styles.dialogTitle}>{foodName} {formatPrice(this.getChosenPrice() * (selectedIndex) || (minPrice))} </div></DialogTitle>
+          <DialogTitle id="form-dialog-title"><div style={styles.dialogTitle}>{foodName}   {formatPrice((this.getChosenPrice() * (selectedIndex)) || (minPrice))} </div></DialogTitle>
           <DialogContent>
             <DialogContentText>
 

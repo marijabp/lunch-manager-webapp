@@ -30,6 +30,7 @@ const styles = {
     description: {
         fontSize: "16px",
         fontFamily: "Comic Sans MS",
+        opacity: "0.5"
         
     }
 }
@@ -42,7 +43,7 @@ class FoodItem extends Component {
     getMinPrice() {
         const allPrices = this.props.options.map(option => option.price);
         const minPrice = Math.min(...allPrices)
-        return minPrice
+        return Number(Math.round(minPrice+'e2')+'e-2').toFixed(2);
     }
 
     render() {

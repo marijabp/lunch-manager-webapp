@@ -29,7 +29,7 @@ class NavBar extends React.Component {
     anchorEl: null,
   };
   getUsersName = () => {
-    let email = this.props.emailLogIn;
+    let email = this.props.loginEmail;
     let name = "";
     let users = JSON.parse(localStorage.getItem('users'))
     if (users) {

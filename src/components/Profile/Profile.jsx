@@ -31,10 +31,10 @@ const styles = {
 
 class Profile extends Component {
     render() {
-        const { emailLogIn } = this.props
+        const { loginEmail } = this.props
         return (
             <div style={styles.main}>
-                <ChangePassword emailLogIn={emailLogIn} />
+                <ChangePassword loginEmail={loginEmail} />
                 <Address />
             </div>
 

@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from "react";
-import listOfRestaurants from '../../data/restaurants';
 import { Link } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import Background from '../../images/restaurantlist.jpg';
+import { fetchRestaurants } from '../../httpClient/RestaurantAPI/restaurantAPI';
 
 const styles = {
     main: {
@@ -37,12 +37,26 @@ const styles = {
 }
 
 class RestaurantList extends Component {
+    state = {
+        restaurants:[],
+      }
+    
+      async componentDidMount() {
+      
+        const response = await fetchRestaurants();
+        console.log(response.data);
+        this.setState({restaurants : response.data})
+      
+}
+     
+
     render() {
+        const { restaurants } = this.state
         return (
             <div style={styles.main}>
-                {listOfRestaurants.map((restaurant) => {
+                {restaurants.map((restaurant) => {
                     return (
-                        <Fragment key={restaurant.routeName}>
+                        <Fragment key={restaurant.id}>
                             <Paper style={styles.paper} >
                                 <div >
                                     <Link style={styles.link} to={"Restaurants/" + restaurant.routeName} >
@@ -51,12 +65,18 @@ class RestaurantList extends Component {
                                     <div style={styles.text}>
                                         <div> {restaurant.description} </div>
                                         <div>{restaurant.workTime}</div>
-                                        <div>{restaurant.address}</div>
+                                        <div>Ovo su kategrije: {restaurant.categories.map((category) => {
+                                            return (
+                                                 <div key={category.categoryId}> {category.name}</div> 
+                                                 )
+                                        } )} </div>
+                                       
                                     </div>
                                 </div>
                             </Paper>
                         </Fragment>);
                 })}
+
             </div>
 
         );

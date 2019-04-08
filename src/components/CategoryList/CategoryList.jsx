@@ -32,7 +32,8 @@ class CategoryList extends React.Component {
 
   render() {
 
-    const { classes, restaurantMenu } = this.props;
+    const { classes} = this.props;
+    const { restaurantMenu } = this.state
     return (
       <Paper>
       <div className={classes.root}>
@@ -41,12 +42,12 @@ class CategoryList extends React.Component {
           return <ListItem
             className={classes.item}
             button
-            selected={this.state[name.categoryName]}
+            selected={this.state[name.name]}
             onClick={event => this.handleListItemClick(name) }
-            key={name.categoryName}
+            key={name.categoryId}
           >
           
-          <ListItemText >{name.categoryName}</ListItemText>
+          <ListItemText >{name.name}</ListItemText>
           </ListItem>})}
         </List>
       </div>

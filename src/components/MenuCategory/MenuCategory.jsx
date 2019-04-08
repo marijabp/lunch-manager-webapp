@@ -24,31 +24,30 @@ const styles = {
         maxWidth: "510px",
         padding: "5px",
         backgroundColor:"rgb(245, 245, 245)",
+        borderRadius: "10px"
     }
 }
   
 
 class MenuCategory extends Component{
     render(){
-        const {categoryName, foodList } = this.props.category;
+        const { name, foods } = this.props.category;
         const {toggleOrderDialog } = this.props;
         
         return(
             
             <Fragment>
             <Paper style={styles.paper}>
-            <div style={styles.foodNameText}> {categoryName} </div>
+            <div style={styles.foodNameText}> {name} </div>
             <div style={styles.menuCategory}>
-            
-
-            {foodList.map((foods, i) => {
+            {foods.map((foods, i) => {
                 return <FoodItem 
-                foodName={foods.foodName}
+                foodName={foods.name}
                 description={foods.description}
                 options={foods.options}
                 condiments={foods.condiments}
                 toggleOrderDialog={toggleOrderDialog}
-                key={'foodName'+i}/>
+                key={'name'+i}/>
                 
              })
             }

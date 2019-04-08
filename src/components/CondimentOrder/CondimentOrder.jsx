@@ -25,16 +25,16 @@ class CondimentOrder extends Component{
             <FormGroup>
             {condiments.map(condiment => {
                 return <FormControlLabel
-                key= {condiment.condimentName}
+                key= {condiment.name}
                 control={
                 <Checkbox
-                    checked={this.state[condiment.condimentName]}
-                    onChange={this.handleChange(condiment.condimentName)}
-                    value={condiment.condimentName}
+                    checked={this.state[condiment.name]}
+                    onChange={this.handleChange(condiment.name)}
+                    value={condiment.name}
                     color="primary"
                     />
                 }
-                label= {condiment.condimentName}/>}
+                label= {condiment.name}/>}
             )}
             </FormGroup>
           </FormControl>

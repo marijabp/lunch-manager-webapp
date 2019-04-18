@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import {  Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const styles = {
   root: {
@@ -27,6 +27,7 @@ class NavBar extends React.Component {
 
   state = {
     anchorEl: null,
+    name: "",
   };
   getUsersName = () => {
     let email = this.props.loginEmail;
@@ -53,12 +54,19 @@ class NavBar extends React.Component {
     this.setState({ anchorEl: null });
   };
   handleProfile = () => {
+  }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user !== undefined) {
+      this.setState({
+        name: nextProps.user.name,
+      })
+    }
   }
 
   render() {
     const { classes } = this.props;
-    const { anchorEl } = this.state;
+    const { anchorEl, name } = this.state;
     const open = Boolean(anchorEl);
     return (
       <div className={classes.root}>
@@ -66,7 +74,7 @@ class NavBar extends React.Component {
         <AppBar position="static" color="default">
           <Toolbar>
             <Typography variant="h6" className={classes.grow}>
-              Zdravo, {this.getUsersName()}
+              Zdravo, {name}
             </Typography>
             <div>
               <IconButton

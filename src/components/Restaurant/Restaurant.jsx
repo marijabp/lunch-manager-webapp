@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import Menu from '../Menu';
 import OrderBasket from '../OrderBasket';
 import Background from '../../images/restaurantmenu.jpg';
-import CategoryList from '../CategoryList';
-import { fetchRestaurantByRouteName, fetchRestaurants } from '../../httpClient/RestaurantAPI/restaurantAPI';
+import { fetchRestaurants } from '../../httpClient/RestaurantAPI/restaurantAPI';
 
 const styles = {
     main: {
@@ -59,7 +58,7 @@ class Restaurant extends Component {
 
     render() {
 
-        const { chosenFood, totalPrice, restaurant, restaurantMenu } = this.state
+        const { chosenFood, totalPrice, restaurantMenu } = this.state
         console.log(restaurantMenu)
 
         return (

@@ -9,11 +9,14 @@ import NavBar from './components/NavBar';
 import RestaurantActions from './components/RestaurantActions';
 
 
+
 class App extends Component {
   state = {
+    id: 0,
     loggedIn: false,
     loginEmail: "",
     role: '',
+    user:[],
   }
   logIn = () => {
     this.setState({ loggedIn: true, user: {} })
@@ -27,9 +30,19 @@ class App extends Component {
   changeEmail = (loginEmail) => {
     this.setState({ loginEmail: loginEmail });
   }
+  changeId = (id) => {
+    this.setState({ id: id });
+  }
+  changeData = (user) => {
+    this.setState({user})
+  }
+  rerender = () => {
+    this.forceUpdate();
+}
 
   render() {
-    const { role, loginEmail, loggedIn } = this.state
+    const { role, loginEmail, loggedIn, id , user } = this.state
+    console.log(user)
     return (
       <Fragment>
         {loggedIn ?
@@ -37,7 +50,7 @@ class App extends Component {
             <div>
               <Router>
                 <div>
-                  <NavBar loggedIn={loggedIn} loginEmail={loginEmail} logOut={this.logOut}> </NavBar>
+                  <NavBar loggedIn={loggedIn} loginEmail={loginEmail} user={user} logOut={this.logOut}> </NavBar>
                   <Route exact={true} path="/" component={RestaurantList} />
                   <Route path="/Restaurants/:routeName" component={Restaurant} />
                   <Route path="/profile" render={(props) => <Profile {...props} loginEmail={loginEmail} />} />
@@ -49,16 +62,16 @@ class App extends Component {
             <div>
               <Router>
                 <div>
-                  <NavBar loggedIn={loggedIn} loginEmail={loginEmail} logOut={this.logOut}> </NavBar>
-                  <Route exact={true} path="/" render={(props) => <RestaurantActions {...props} loginEmail={loginEmail} />} />
-                  <Route path="/profile" render={(props) => <Profile {...props} loginEmail={loginEmail} />} />
+                  <NavBar loggedIn={loggedIn} loginEmail={loginEmail} user={user} logOut={this.logOut}> </NavBar>
+                  <Route exact={true} path="/" render={(props) => <RestaurantActions {...props} restaurant={user} rerender={this.rerender} loginEmail={loginEmail} id={id} />} />
+                  <Route path="/profile" render={(props) => <Profile {...props} loginEmail={loginEmail} id={id} />} />
                 </div>
               </Router>
             </div>
 
           }</div>
           :
-          <Authentication logIn={this.logIn} changeRole={this.changeRole} changeEmail={this.changeEmail}></Authentication>}
+          <Authentication logIn={this.logIn} changeData={this.changeData} changeRole={this.changeRole} changeEmail={this.changeEmail} changeId={this.changeId}></Authentication>}
       </Fragment>
     );
   }

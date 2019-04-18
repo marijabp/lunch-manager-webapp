@@ -5,16 +5,16 @@ import Paper from '@material-ui/core/Paper';
 import { addCondiment } from '../../httpClient/CondimentAPI/condimentAPI';
 
 
-const styles= {
+const styles = {
     paper: {
-        marginTop: "20px" ,
+        marginTop: "20px",
         maxWidth: "510px",
         padding: "5px",
-        backgroundColor:"rgb(245, 245, 245)",
+        backgroundColor: "rgb(245, 245, 245)",
         borderRadius: "10px"
     }
 }
-class AddingCondiment extends Component {
+class AddNewCondiment extends Component {
     state = {
         newCondiment: "",
     };
@@ -22,20 +22,19 @@ class AddingCondiment extends Component {
     handleChange = name => event => {
         this.setState({ [name]: event.target.value });
     };
-    handleClick =  () => {
-        try{
-            const response= addCondiment('5', this.state.newCondiment);
-            console.log(response)
-            console.log(response.status);
+    handleClick = () => {
+        try {
+            var id = this.props.id;
+            const response = addCondiment(null, id, this.state.newCondiment);
         }
-        catch(e){
+        catch (e) {
             console.log(e)
         }
     }
     render() {
         return (
             <Fragment>
-                <Paper style={styles.paper} elevation={1}>
+                <Paper style={styles.paper}>
                     <form noValidate autoComplete="off">
                         <TextField
                             id="standard-name"
@@ -52,4 +51,4 @@ class AddingCondiment extends Component {
     }
 }
 
-export default AddingCondiment;
+export default AddNewCondiment;

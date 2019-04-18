@@ -10,7 +10,9 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import './Authentication.css';
 import Background from '../../images/authentication.jpg';
-import {registration, login} from '../../httpClient/UserAPI/userAPI';
+import { registration, login } from '../../httpClient/UserAPI/userAPI';
+import { fetchRestaurantById } from '../../httpClient/RestaurantAPI/restaurantAPI';
+import { fetchCustomerById } from '../../httpClient/CustomerAPI/customerAPI';
 
 
 const styles = {
@@ -37,12 +39,12 @@ class Authentication extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: 0,
             emailLogIn: "",
             emailLogInErrorMessage: "",
 
             passwordLogIn: "",
             loginErrorMessage: "",
-
 
             name: "",
             nameErrorMessage: "",
@@ -59,7 +61,7 @@ class Authentication extends Component {
             password1: "",
             password1ErrorMessage: "",
 
-            roleErrorMessage:"",
+            roleErrorMessage: "",
             role: "Customer"
         }
     }
@@ -68,31 +70,9 @@ class Authentication extends Component {
     handleChange = event => {
         this.setState({ role: event.target.value });
     };
-    handleInputEmailLogIn = event => {
-        this.setState({ emailLogIn: event.target.value });
+    handleChangeData = name => event => {
+        this.setState({ [name]: event.target.value });
     };
-    handleInputPasswordLogIn = event => {
-        this.setState({ passwordLogIn: event.target.value })
-    }
-    handleInputName = event => {
-        this.setState({ name: event.target.value })
-    }
-    handleInputSurname = event => {
-        this.setState({ surname: event.target.value })
-    }
-    handleInputEmail = event => {
-        this.setState({ email: event.target.value })
-    }
-    handleInputPassword = event => {
-        this.setState({ password: event.target.value })
-    }
-    handleInputPassword1 = event => {
-        this.setState({ password1: event.target.value })
-    }
-
- /*   handleChange = (key, value) => {
-        this.setState({ [key]: value })
-    }*/
 
     validation = () => {
         let valid = true;
@@ -102,26 +82,18 @@ class Authentication extends Component {
         let passwordErrorMessage = "";
         let password1ErrorMessage = "";
         let emailUnique = true;
-        let roleErrorMessage="";
+        let roleErrorMessage = "";
 
-      /*  let users = JSON.parse(localStorage.getItem('users'))
-        if (users) {
-            for (let i = 0; i < users.length; i++) {
-                if (users[i].email === this.state.email) {
-                    emailUnique = false;
-                }
-            }
-        }*/
-        if(this.state.role===""){
-            roleErrorMessage="Choose one role!";
-            valid=false;
+        if (this.state.role === "") {
+            roleErrorMessage = "Choose one role!";
+            valid = false;
 
         }
         if (this.state.name === "") {
             nameErrorMessage = "Input a valid name";
             valid = false;
         }
-        if (this.state.surname === "" && this.state.role==="Customer") {
+        if (this.state.surname === "" && this.state.role === "Customer") {
             surnameErrorMessage = "Input a valid surname";
             valid = false;
         }
@@ -144,124 +116,56 @@ class Authentication extends Component {
 
         return valid;
     }
-    handleClickRegister = () => {
-      //  let users = JSON.parse(localStorage.getItem('users'))
+
+    handleClickRegister = async () => {
         let valid = this.validation();
         console.log(valid);
+        
         if (valid) {
-         /*   if (!users) {
-                users = [];
-                localStorage.setItem("users", JSON.stringify(users));
-            }
-
-            const user = { role: this.state.role, email: this.state.email, password: this.state.password, name: this.state.name }
-            users.push(user)
-            localStorage.setItem("users", JSON.stringify(users));*/
-            
             this.props.changeRole(this.state.role);
             this.props.changeEmail(this.state.email);
             this.props.logIn();
 
-          /*  API.post('/registration', { 
-                "user":
-                {"role": this.state.role,
+            var user = {
+                    "role": this.state.role,
                     "email": this.state.email,
                     "password": this.state.password,
-                    "passwordConfirm":this.state.password1
-                    
-                },
-                    
-                    "name": this.state.name,
-                    "surrname": this.state.surname
-             })
-             .then(response => { 
-                console.log(response)
-            })
-            .catch(error => {
-                console.log(error.response)
-            });*/
-           var user1={
-                "role": this.state.role,
-                "email": this.state.email,
-                "password": this.state.password,
-                "passwordConfirm": this.state.password1, 
-            
-                "name": this.state.name,
-                "surname": this.state.surname
-            }
-            const  response = registration(user1);
+                    "passwordConfirm": this.state.password1
+                }
+            const response = registration(user, this.state.name, this.state.surname);
             console.log(response);
-            
         }
-
-       
-
     }
 
-    handleClickLogIn =async () => {
-      //  let users = JSON.parse(localStorage.getItem('users'))
-       // let valid = false;
-       // let emailLogInErrorMessage = "Input valid email";
-        //let role = "";
+
+    handleClickLogIn = async () => {
         let loginErrorMessage = "Input valid data";
-
-      /*  if (users) {
-            for (let i = 0; i < users.length; i++) {
-                if (users[i].email === this.state.emailLogIn && users[i].password === this.state.passwordLogIn) {
-                    valid = true;
-                    role = users[i].role;
-                    emailLogInErrorMessage = "";
-                    passwordLogInErrorMessage = "";
-                }
-                if (users[i].email === this.state.emailLogIn) {
-                    emailLogInErrorMessage = "";
-                }
-                if (users[i].password === this.state.passwordLogIn) {
-                    passwordLogInErrorMessage = "";
-                }
-            }
-        }
-        else {
-            emailLogInErrorMessage = " Niste registrovani! "
-            passwordLogInErrorMessage = ""
-        }*/
-
         console.log("awaiting")
-       
         try {
-            const response =await login(this.state.emailLogIn, this.state.passwordLogIn); 
-            console.log(response)
-            console.log(response.status);
-            console.log(response.data.role)
-
-            if (response.status===200 ) {
+          //  const response = await login(this.state.emailLogIn, this.state.passwordLogIn);
+             const response = await login("angelo@gmail.com", 123456);
+            if (response.status === 200) {
                 this.props.logIn();
                 this.props.changeEmail(this.state.emailLogIn)
                 this.props.changeRole(response.data.role);
-                loginErrorMessage="";
-               /* API.post('/login', 
-                { 
-                    "email": this.state.emailLogIn,
-                    "password": this.state.passwordLogIn
-                 })
-                 .then(response => { 
-                    console.log(response)
-                })
-                .catch(error => {
-                    console.log(error.response)
-                });*/
+                this.props.changeId(response.data.id)
+                if (response.data.role==='Restaurant'){
+                    var id=response.data.id;
+                    const restaurant=await fetchRestaurantById(id)
+                    this.props.changeData(restaurant.data)
+                }
+                else{
+                    var id1=response.data.id;
+                    const customer=await fetchCustomerById(id1)
+                    this.props.changeData(customer.data)
+                }
+                loginErrorMessage = "";
             }
         }
-        catch(e) {
+        catch (e) {
             console.log(e)
-            this.setState({loginErrorMessage: "wrong email/pass"})
+            this.setState({ loginErrorMessage: loginErrorMessage })
         }
-      
-        // else{
-        //     console.log("Input valid data!");
-        //     loginErrorMessage= "Input a valid data!";
-        // }
-        
     };
 
 
@@ -277,7 +181,7 @@ class Authentication extends Component {
                                     error={this.state.loginErrorMessage !== ""}
                                     label="E-mail"
                                     value={this.state.emailLogIn}
-                                    onChange={this.handleInputEmailLogIn}
+                                    onChange={this.handleChangeData("emailLogIn")}
                                     margin="normal"
                                 />
                                 <TextField
@@ -288,9 +192,8 @@ class Authentication extends Component {
                                     autoComplete="current-password"
                                     margin="normal"
                                     value={this.state.passwordLogIn}
-                                    onChange={this.handleInputPasswordLogIn}
+                                    onChange={this.handleChangeData("passwordLogIn")}
                                 />
-                               
                                 <div><Button onClick={this.handleClickLogIn}> Log in </Button></div>
                                 <ErrorMessage> {this.state.loginErrorMessage}</ErrorMessage>
                             </form>
@@ -311,10 +214,10 @@ class Authentication extends Component {
                                         name="gender1"
                                         value={this.state.role}
                                         onChange={this.handleChange}
-                                       
-                                        
+
+
                                     >
-                                        <FormControlLabel value="Customer" control={<Radio color="primary" />} label="Customer"  />
+                                        <FormControlLabel value="Customer" control={<Radio color="primary" />} label="Customer" />
                                         <FormControlLabel value="Restaurant" control={<Radio color="primary" />} label="Restaurant" />
                                     </RadioGroup>
                                 </FormControl>
@@ -325,7 +228,7 @@ class Authentication extends Component {
                                         error={this.state.nameErrorMessage !== ""}
                                         label="Name"
                                         value={this.state.name}
-                                        onChange={this.handleInputName}
+                                        onChange={this.handleChangeData("name")}
                                         margin="normal"
                                     />
                                     <ErrorMessage>{this.state.NameErrorMessage}</ErrorMessage>
@@ -336,7 +239,7 @@ class Authentication extends Component {
                                             error={this.state.surnameErrorMessage !== ""}
                                             label="Surname"
                                             value={this.state.surname}
-                                            onChange={this.handleInputSurname}
+                                            onChange={this.handleChangeData("surname")}
                                             margin="normal"
                                         />}
                                     <ErrorMessage>{this.state.surnameErrorMessage}</ErrorMessage>
@@ -345,7 +248,7 @@ class Authentication extends Component {
                                         label="E-mail"
                                         error={this.state.emailErrorMessage !== ""}
                                         value={this.state.email}
-                                        onChange={this.handleInputEmail}
+                                        onChange={this.handleChangeData("email")}
                                         margin="normal"
                                     />
                                     <ErrorMessage>{this.state.emailErrorMessage}</ErrorMessage>
@@ -356,7 +259,7 @@ class Authentication extends Component {
                                         type="password"
                                         margin="normal"
                                         value={this.state.password}
-                                        onChange={this.handleInputPassword}
+                                        onChange={this.handleChangeData("password")}
                                     />
                                     <ErrorMessage>{this.state.passwordErrorMessage}</ErrorMessage>
                                     <TextField
@@ -366,7 +269,7 @@ class Authentication extends Component {
                                         type="password"
                                         margin="normal"
                                         value={this.state.password1}
-                                        onChange={this.handleInputPassword1}
+                                        onChange={this.handleChangeData("password1")}
                                     />
                                     <ErrorMessage>{this.state.password1ErrorMessage} </ErrorMessage>
                                 </div>

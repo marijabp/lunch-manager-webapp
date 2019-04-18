@@ -44,7 +44,6 @@ class RestaurantList extends Component {
       async componentDidMount() {
       
         const response = await fetchRestaurants();
-        console.log(response.data);
         this.setState({restaurants : response.data})
       
 }

@@ -140,24 +140,7 @@ class AddingFood extends Component {
                                 </div>
                             </form>
                         </div>
-                        <FormControl style={styles.formControl} >
-                            <InputLabel htmlFor="select-multiple-checkbox">Prilozi</InputLabel>
-                            <Select
-                                multiple
-                                value={this.state.chosenCondiments}
-                                onChange={this.handleChange('chosenCondiments')}
-                                input={<Input id="select-multiple-checkbox" />}
-                                renderValue={selected => selected.join(', ')}
-
-                            >
-                                {this.state.condiments.map(condiment => (
-                                    <MenuItem key={condiment.condimentId} value={condiment.name}>
-                                        <Checkbox checked={this.state.chosenCondiments.indexOf(condiment.name) > -1} />
-                                        <ListItemText primary={condiment.name} />
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
+                       
                         <div><Button variant='outlined' onClick={this.handleClick} > Dodaj hranu </Button></div>
                     </Paper>
                 </div>

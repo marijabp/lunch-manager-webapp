@@ -2,113 +2,165 @@ import React, { Component, Fragment } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
-import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
-import { fetchCondiments } from '../../httpClient/CondimentAPI/condimentAPI';
-import { addCategory } from '../../httpClient/CategoryAPI/categoryApi';
-import { fetchRestaurantByEmail } from '../../httpClient/UserAPI/userAPI';
-import { fetchRestaurants} from '../../httpClient/RestaurantAPI/restaurantAPI'
+import ListItemText from '@material-ui/core/ListItemText';
+import Checkbox from '@material-ui/core/Checkbox';
+import { fetchCondimentsByRestaurantId } from '../../httpClient/CondimentAPI/condimentAPI';
+import AddingCondiment from '../AddNewCondiment';
+import { fetchCategoryByName } from '../../httpClient/CategoryAPI/categoryApi';
+import { addFood, fetchFoodsByResraurantId } from '../../httpClient/FoodAPI/foodAPI';
+import { addOption } from '../../httpClient/OptionAPI/optionAPI';
 
 const styles = {
+    main: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-around",
+        flexWrap: "wrap",
+    },
     paper: {
         marginTop: "20px",
         maxWidth: "510px",
-        padding: "5px",
+        padding: "20px",
         backgroundColor: "rgb(245, 245, 245)",
-        borderRadius: "10px"
-    }
+        borderRadius: "10px",
+        align: "center",
+    },
+    formControl: {
+        width: "500px",
+    },
 }
+
 class AddingFood extends Component {
     state = {
-        newFood: "",
-        newCategory:"",
+        foodName: "",
+        newCategory: "",
+        foodDescription: "",
+        foodPrice:0,
         condiments: [],
-        id:"",
+        chosenCondiments: [],
+        foods:[],
     };
 
     handleChange = name => event => {
         this.setState({ [name]: event.target.value });
     };
-    async componentDidMount() {
 
-        /*  const response = await fetchRestaurantByRouteName(toString(this.props.match.params.routeName).toLowerCase);
-          console.log(response.data);
-          this.setState({ restaurant: response.data })*/
-        const response1 = await fetchCondiments();
-        const response = await fetchRestaurants();
-        const chosenRestaurant=response.data.filter(restaurant => restaurant.email===this.props.email)
-        // const chosenRestaurant=response.data.filter(restaurant => restaurant.routeName===this.props.match.params.routeName)
-        this.setState({ condiments: response1.data })
-        console.log(response.data)
-
-    }
-    handleClick =  () => {
-        try{
-            const restaurant=fetchRestaurantByEmail(this.props.email)
-            
-            const response= addCategory(this.state.id, this.state.newCategory);
+    handleClick =async () => {
+        try {
+            var restaurantId=this.props.id;
+            var name = this.state.newCategory;
+            const category = this.props.categories.filter(category => category.name === name)
+            var categoryId = category[0].categoryId;
+            const response =await addFood(categoryId, this.state.foodName, this.state.foodDescription)
             console.log(response)
-            console.log(response.status);
+            var foodName =this.state.foodName;
+            var foods=await fetchFoodsByResraurantId(restaurantId);
+            const food= foods.data.filter(food => foodName===food.name);
+            console.log(food[0])
+            const addNewOption=await addOption(food[0].foodId, "", this.state.foodPrice)
+            console.log(addNewOption)
         }
-        catch(e){
+        catch (e) {
             console.log(e)
         }
     }
+    async componentWillReceiveProps(nextProps) {
+        if (nextProps.categories !== undefined) {
+            var id = this.props.id;
+            const response = await fetchCondimentsByRestaurantId(id);
+            const foods= await fetchFoodsByResraurantId(id)
+
+            this.setState({
+                condiments: response.data,
+                foods: foods.data,
+            })
+        }
+    }
+
     render() {
-        console.log(this.props.email)
         return (
             <Fragment>
-                <Paper style={styles.paper} elevation={1}>
-                    <form noValidate autoComplete="off">
-                        <TextField
-                            id="standard-name"
-                            label="Naziv kategorije"
-                            value={this.state.newCategory}
-                            onChange={this.handleChange('newCategory')}
-                            margin="normal"
-                        />
-                        <TextField
-                            id="standard-name"
-                            label="Naziv hrane"
-                            value={this.state.newFood}
-                            onChange={this.handleChange('newFood')}
-                            margin="normal"
-                        />
-                    </form>
-                    <FormControl >
-                        <InputLabel htmlFor="select-multiple-chip">Prilozi</InputLabel>
-                        <Select
-                            multiple
-                            value={this.state.condiments}
-                            onChange={this.handleChange}
-                            input={<Input id="select-multiple-chip" />}
-                            renderValue={selected => (
+                <div style={styles.main}>
+                    <Paper style={styles.paper}>
+                        <div>Dodaj novu hranu</div>
+                        <div>
+                            <form noValidate autoComplete="off">
+                                <FormControl style={styles.formControl}>
+                                    <InputLabel htmlFor="age-simple">Kategorije hrane</InputLabel>
+                                    <Select
+                                        value={this.state.newCategory}
+                                        onChange={this.handleChange("newCategory")}
+                                        inputProps={{
+                                            name: 'cateogry',
+                                            id: 'age-simple',
+                                        }}
+                                    >
+                                        <MenuItem value="">
+                                            <em>None</em>
+                                        </MenuItem>
+                                        {this.props.categories !== undefined ? this.props.categories.map((category) => {
+                                            return (
+                                                <MenuItem value={category.name} key={category.categoryId}>{category.name}</MenuItem>
+                                            );
+                                        }) : <div>" Nema kategorija za prikaz"</div>}
+                                    </Select>
+                                </FormControl>
                                 <div>
-                                    {selected.map(value => (
-                                        <Chip key={value.condimentId} label={value.name} />
-                                    ))}
+                                    <TextField
+                                        id="standard-name"
+                                        label="Naziv hrane"
+                                        value={this.state.foodName}
+                                        onChange={this.handleChange('foodName')}
+                                        margin="normal"
+                                    />
                                 </div>
-                            )}
-                        >
-                            {this.state.condiments.map(condiment => (
-                                <MenuItem key={condiment.condimentId} value={condiment.name} >
-                                    {condiment.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                    
-                    <div><Button variant='outlined' onClick={this.handleClick} > Dodaj hranu </Button></div>
-                </Paper>
+                                <div>
+                                    <TextField
+                                        id="standard-name"
+                                        label="Opis hrane"
+                                        value={this.state.foodDescription}
+                                        onChange={this.handleChange('foodDescription')}
+                                        margin="normal"
+                                    />
+                                </div>
+                                <div>
+                                    <TextField
+                                        id="standard-name"
+                                        label="Minimalna cijena hrane"
+                                        value={this.state.foodPrice}
+                                        onChange={this.handleChange('foodPrice')}
+                                        margin="normal"
+                                    />
+                                </div>
+                            </form>
+                        </div>
+                        <FormControl style={styles.formControl} >
+                            <InputLabel htmlFor="select-multiple-checkbox">Prilozi</InputLabel>
+                            <Select
+                                multiple
+                                value={this.state.chosenCondiments}
+                                onChange={this.handleChange('chosenCondiments')}
+                                input={<Input id="select-multiple-checkbox" />}
+                                renderValue={selected => selected.join(', ')}
+
+                            >
+                                {this.state.condiments.map(condiment => (
+                                    <MenuItem key={condiment.condimentId} value={condiment.name}>
+                                        <Checkbox checked={this.state.chosenCondiments.indexOf(condiment.name) > -1} />
+                                        <ListItemText primary={condiment.name} />
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <div><Button variant='outlined' onClick={this.handleClick} > Dodaj hranu </Button></div>
+                    </Paper>
+                </div>
             </Fragment>
         );
     }

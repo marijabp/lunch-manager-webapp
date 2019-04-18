@@ -1,9 +1,12 @@
 import axiosInstance from '../api'
 
-const CATEGORIES_PATH='categories'
+const CATEGORIES_PATH = 'categories/'
 
-export const fetchCategoriesByRestaurantId = (restaurantId) => axiosInstance.get(CATEGORIES_PATH, {restaurantId});
+export const fetchCategoriesByRestaurantId = (restaurantId) => axiosInstance.get(CATEGORIES_PATH + restaurantId, { restaurantId });
 
-const ADD_CATEGORY_PATH='addcategory'
+const CATEGORY_PATH='category/'
+export const fetchCategoryByName = (name) => axiosInstance.get(CATEGORY_PATH + name, { name })
 
-export const addCategory = (restaurantId, name) => axiosInstance.post(ADD_CATEGORY_PATH, {restaurantId, name})
+const ADD_CATEGORY_PATH = 'addcategory'
+
+export const addCategory = (restaurantId, name) => axiosInstance.post(ADD_CATEGORY_PATH, { restaurantId, name })

@@ -33,7 +33,7 @@ class CategoryList extends React.Component {
   render() {
 
     const { classes} = this.props;
-    const { restaurantMenu } = this.state
+    const { restaurantMenu } = this.props
     return (
       <Paper>
       <div className={classes.root}>

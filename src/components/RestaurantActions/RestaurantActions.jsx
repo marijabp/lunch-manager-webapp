@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import AddingFood from '../AddingFood';
-import AddNewCondiment from '../AddNewCondiment';
 import AddNewCategory from '../AddNewCategory/AddNewCategory';
 import { fetchCondimentsByRestaurantId } from '../../httpClient/CondimentAPI/condimentAPI';
 import AddCondimentToFood from '../AddCondimentToFood';
@@ -54,7 +53,7 @@ class RestaurantActions extends Component {
         this.setState({ chosenCategory })
     }
     pushCategory = (category) => {
-        this.setState({ categories: [...this.state.categories, ...category] });
+        this.setState({ categories: [...this.state.categories, category] });
     }
 
 
@@ -75,8 +74,6 @@ class RestaurantActions extends Component {
                         </div>
                     </div>
                     <AddNewCategory id={this.props.id} pushCategory={this.pushCategory}></AddNewCategory>
-
-                    <AddNewCondiment id={this.props.id} restaurant={this.props.restaurant}></AddNewCondiment>
                 </div>
            
         );

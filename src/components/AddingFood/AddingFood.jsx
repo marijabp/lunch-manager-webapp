@@ -2,17 +2,11 @@ import React, { Component, Fragment } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Chip from '@material-ui/core/Chip';
-import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
 import { fetchCondimentsByRestaurantId } from '../../httpClient/CondimentAPI/condimentAPI';
-import AddingCondiment from '../AddNewCondiment';
-import { fetchCategoryByName } from '../../httpClient/CategoryAPI/categoryApi';
 import { addFood, fetchFoodsByResraurantId } from '../../httpClient/FoodAPI/foodAPI';
 import { addOption } from '../../httpClient/OptionAPI/optionAPI';
 

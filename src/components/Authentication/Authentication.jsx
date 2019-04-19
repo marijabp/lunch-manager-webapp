@@ -120,18 +120,18 @@ class Authentication extends Component {
     handleClickRegister = async () => {
         let valid = this.validation();
         console.log(valid);
-        
+
         if (valid) {
             this.props.changeRole(this.state.role);
             this.props.changeEmail(this.state.email);
             this.props.logIn();
 
             var user = {
-                    "role": this.state.role,
-                    "email": this.state.email,
-                    "password": this.state.password,
-                    "passwordConfirm": this.state.password1
-                }
+                "role": this.state.role,
+                "email": this.state.email,
+                "password": this.state.password,
+                "passwordConfirm": this.state.password1
+            }
             const response = registration(user, this.state.name, this.state.surname);
             console.log(response);
         }
@@ -142,21 +142,22 @@ class Authentication extends Component {
         let loginErrorMessage = "Input valid data";
         console.log("awaiting")
         try {
-          //  const response = await login(this.state.emailLogIn, this.state.passwordLogIn);
-             const response = await login("angelo@gmail.com", 123456);
+            //  const response = await login(this.state.emailLogIn, this.state.passwordLogIn);
+              const response = await login("angelo@gmail.com", 123456);
+            //const response = await login("m@gmail.com", 123456);
             if (response.status === 200) {
                 this.props.logIn();
                 this.props.changeEmail(this.state.emailLogIn)
                 this.props.changeRole(response.data.role);
                 this.props.changeId(response.data.id)
-                if (response.data.role==='Restaurant'){
-                    var id=response.data.id;
-                    const restaurant=await fetchRestaurantById(id)
+                if (response.data.role === 'Restaurant') {
+                    var id = response.data.id;
+                    const restaurant = await fetchRestaurantById(id)
                     this.props.changeData(restaurant.data)
                 }
-                else{
-                    var id1=response.data.id;
-                    const customer=await fetchCustomerById(id1)
+                else {
+                    var id1 = response.data.id;
+                    const customer = await fetchCustomerById(id1)
                     this.props.changeData(customer.data)
                 }
                 loginErrorMessage = "";

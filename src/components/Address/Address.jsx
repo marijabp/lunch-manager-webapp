@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
+import { addAddress } from '../../httpClient/AddressAPI/addressAPI';
 
 const styles = {
     paper: {
@@ -21,12 +22,29 @@ const styles = {
 
 class Address extends Component {
     state = {
-        address: "",
+        addressName: this.props.user!= undefined ? this.props.user.address : " ",
+        number: "",
+        city:"",
     }
-    handleInputAddress = (event) => {
-        this.setState({ address: event.target.value })
+
+    handleChange = name => event => {
+        this.setState({ [name]: event.target.value });
+    };
+
+    handleClick = async () => {
+        try {
+            var id = this.props.id;
+            const response = await addAddress( id, this.state.addressName, this.state.number, this.state.city )
+            console.log(response)
+        }
+        catch (e) {
+            console.log(e)
+        }
     }
+
     render() {
+        console.log(this.props.user)
+        console.log(this.props.id)
         return (
 
             <div style={styles.text}>
@@ -34,13 +52,25 @@ class Address extends Component {
                     <div>ADRESA</div>
                     <form noValidate autoComplete="off">
                         <TextField
-                            label="Adresa"
-                            value={this.state.address}
-                            onChange={this.handleInputAddress}
+                            label="Naziv adrese"
+                            value={this.state.addressName}
+                            onChange={this.handleChange("addressName")}
+                            margin="normal"
+                        />
+                        <TextField
+                            label="Broj"
+                            value={this.state.number}
+                            onChange={this.handleChange("number")}
+                            margin="normal"
+                        />
+                        <TextField
+                            label="Grad"
+                            value={this.state.city}
+                            onChange={this.handleChange("city")}
                             margin="normal"
                         />
                     </form>
-                    <div><Button variant="outlined"> Potvrdi </Button></div>
+                    <div><Button variant="outlined" onClick={this.handleClick}> Potvrdi </Button></div>
                 </Paper>
             </div>
         );

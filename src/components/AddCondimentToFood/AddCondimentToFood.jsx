@@ -66,7 +66,7 @@ class AddCondimentToFood extends Component {
         }
     }
     render() {
-        console.log(this.props.condiments)
+        const { foods } = this.props
         return (
             <Fragment>
                 <Paper style={styles.paper}>
@@ -86,7 +86,7 @@ class AddCondimentToFood extends Component {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    {this.state.foods !== undefined ? this.state.foods.map((food) => {
+                                    {foods !== undefined ? foods.map((food) => {
                                         return (
                                             <MenuItem value={food.name} key={food.foodId}>{food.name}</MenuItem>
                                         );

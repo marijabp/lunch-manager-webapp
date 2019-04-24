@@ -36,8 +36,6 @@ class AddingFood extends Component {
         newCategory: "",
         foodDescription: "",
         foodPrice:0,
-        condiments: [],
-        chosenCondiments: [],
         foods:[],
     };
 
@@ -56,9 +54,14 @@ class AddingFood extends Component {
             var foodName =this.state.foodName;
             var foods=await fetchFoodsByResraurantId(restaurantId);
             const food= foods.data.filter(food => foodName===food.name);
-            console.log(food[0])
             const addNewOption=await addOption(food[0].foodId, "", this.state.foodPrice)
-            console.log(addNewOption)
+            var newFoodItem= {
+                "foodId":food[0].foodId,
+                "categoryId": categoryId,
+                "name": this.state.foodName,
+                "description": this.state.foodDescription,
+            }
+            this.props.pushFood(newFoodItem)
         }
         catch (e) {
             console.log(e)
@@ -67,11 +70,8 @@ class AddingFood extends Component {
     async componentWillReceiveProps(nextProps) {
         if (nextProps.categories !== undefined) {
             var id = this.props.id;
-            const response = await fetchCondimentsByRestaurantId(id);
             const foods= await fetchFoodsByResraurantId(id)
-
             this.setState({
-                condiments: response.data,
                 foods: foods.data,
             })
         }

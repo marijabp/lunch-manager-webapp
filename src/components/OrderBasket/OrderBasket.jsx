@@ -3,6 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import RemoveItemButton from '../RemoveItemButton';
 import './OrderBasket.css'
+import { addOrder } from '../../httpClient/OrderAPI/orderAPI';
 
 const styles = {
     paper: {
@@ -37,8 +38,25 @@ class OrderBasket extends Component {
         this.props.handleRemoveItem(chosenFood);
 
     };
+    handleClick =async () => {
+        try {
+            var customerId=this.props.id;
+            var restaurantId=this.props.restaurantId;
+            var totalPrice=this.props.totalPrice;
+            const status="PENDING";
+            const response = await addOrder(restaurantId, customerId, totalPrice, status)
+            console.log(response)
+
+           
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
     render() {
         const { chosenFood, totalPrice } = this.props
+        console.log(this.props.id)
+        console.log(this.props.restaurantId)
         return (
             <Fragment>
                 <Paper style={styles.paper}>
@@ -54,7 +72,7 @@ class OrderBasket extends Component {
                             ))}
                         </div>
                         <div>Ukupno: {totalPrice} KM</div>
-                        <Button variant="outlined" color="default">Naruči</Button>
+                        <Button variant="outlined" onClick={this.handleClick} color="default">Naruči</Button>
                     </div>
                 </Paper>
             </Fragment>

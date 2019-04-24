@@ -64,7 +64,17 @@ export default class OrderDialog extends React.Component {
   handleAdd = () => {
     const chosenFood = this.props.selectedFood.foodName
     var price = this.getChosenPrice() * (this.state.selectedIndex)
-
+    var condiments=this.state.condiments
+    var chosenOption=this.state.chosenOption
+    var portionQuantity=this.state.portionQuantity
+    var food={
+      "name":chosenFood,
+      "price":price,
+      "condiments":condiments,
+      "chosenOption":chosenOption,
+      "quantity":portionQuantity,
+    }
+    this.props.handleAddItem(food)
     this.props.changeBasketState(chosenFood + ' - ' + price + '  KM', price)
     this.props.total(price);
     this.props.toggleOrderDialog();
@@ -73,7 +83,6 @@ export default class OrderDialog extends React.Component {
     const { foodName, options, condiments, minPrice } = this.props.selectedFood
     const { chosenOption, anchorEl, selectedIndex = 0 } = this.state
     options.sort(this.compareOptionsByPrice)
-    console.log(selectedIndex)
     return (
       <div>
         <Dialog
@@ -92,10 +101,10 @@ export default class OrderDialog extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
-              Cancel
+              Izađi
             </Button>
             <Button onClick={this.handleAdd} color="primary">
-              Add to Basket
+              Dodaj u korpu
             </Button>
           </DialogActions>
         </Dialog>

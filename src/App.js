@@ -16,7 +16,7 @@ class App extends Component {
     loggedIn: false,
     loginEmail: "",
     role: '',
-    user:[],
+    user: [],
   }
   logIn = () => {
     this.setState({ loggedIn: true, user: {} })
@@ -34,40 +34,36 @@ class App extends Component {
     this.setState({ id: id });
   }
   changeData = (user) => {
-    this.setState({user})
+    this.setState({ user })
   }
-  rerender = () => {
-    this.forceUpdate();
-}
-
+  handleChangeData = name => event => {
+    this.setState({ [name]: event.target.value });
+  };
   render() {
-    const { role, loginEmail, loggedIn, id , user } = this.state
-    console.log(user)
+    const { role, loginEmail, loggedIn, id, user } = this.state
+    console.log(this.state.user)
     return (
       <Fragment>
         {loggedIn ?
           <div > {role === 'Customer' ?
-            <div>
-              <Router>
-                <div>
-                  <NavBar loggedIn={loggedIn} loginEmail={loginEmail} user={user} logOut={this.logOut}> </NavBar>
-                  <Route exact={true} path="/" component={RestaurantList} />
-                  <Route path="/Restaurants/:routeName" component={Restaurant} />
-                  <Route path="/profile" render={(props) => <Profile {...props} loginEmail={loginEmail} />} />
-                </div>
-              </Router>
-            </div>
+            <Router>
+              <div>
+                <NavBar loggedIn={loggedIn} loginEmail={loginEmail} user={user} logOut={this.logOut}> </NavBar>
+                <Route exact={true} path="/" component={RestaurantList} />
+                <Route path="/Restaurants/:routeName" render={(props) => <Restaurant {...props} loginEmail={loginEmail} role={role} user={user} id={id} />} />
+                <Route path="/profile" render={(props) => <Profile {...props} id={id} loginEmail={loginEmail} role={role} user={user} />} />
+              </div>
+            </Router>
+
             :
 
-            <div>
-              <Router>
-                <div>
-                  <NavBar loggedIn={loggedIn} loginEmail={loginEmail} user={user} logOut={this.logOut}> </NavBar>
-                  <Route exact={true} path="/" render={(props) => <RestaurantActions {...props} restaurant={user} rerender={this.rerender} loginEmail={loginEmail} id={id} />} />
-                  <Route path="/profile" render={(props) => <Profile {...props} loginEmail={loginEmail} id={id} />} />
-                </div>
-              </Router>
-            </div>
+            <Router>
+              <div>
+                <NavBar loggedIn={loggedIn} loginEmail={loginEmail} user={user} logOut={this.logOut}> </NavBar>
+                <Route exact={true} path="/" render={(props) => <RestaurantActions {...props} restaurant={user} loginEmail={loginEmail} id={id} />} />
+                <Route path="/profile" render={(props) => <Profile {...props} loginEmail={loginEmail} id={id} role={role} user={user} />} />
+              </div>
+            </Router>
 
           }</div>
           :

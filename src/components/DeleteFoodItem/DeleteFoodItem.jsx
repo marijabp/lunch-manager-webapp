@@ -5,10 +5,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import TextField from '@material-ui/core/TextField';
 import { fetchCondimentsByRestaurantId } from '../../httpClient/CondimentAPI/condimentAPI';
-import { fetchFoodsByResraurantId } from '../../httpClient/FoodAPI/foodAPI';
-import { addOption } from '../../httpClient/OptionAPI/optionAPI';
+import { fetchFoodsByResraurantId, deleteFood } from '../../httpClient/FoodAPI/foodAPI';
 
 const styles = {
     main: {
@@ -26,15 +24,20 @@ const styles = {
         align: "center",
     },
     formControl: {
-        width: "500px",
+        maxWidth: "500px",
+        minWidth: "200px",
     },
 }
 
-class AddOptionToFood extends Component {
+class DeleteFoodItem extends Component {
     state = {
         chosenFood: "",
-        optionName: "",
-        optionPrice: 0,
+        newCategory: "",
+        foodDescription: "",
+        condimentName: "",
+        foodPrice: 0,
+        condiments: [],
+        options: [],
         foods: [],
     };
 
@@ -48,14 +51,24 @@ class AddOptionToFood extends Component {
             var foodName = this.state.chosenFood;
             var foods = await fetchFoodsByResraurantId(restaurantId);
             const food = foods.data.filter(food => foodName === food.name);
-            const addNewOptionToFood = await addOption(food[0].foodId, this.state.optionName, this.state.optionPrice)
+            console.log(food[0])
+            if (food[0] !== undefined) {
+                var response = await deleteFood(food[0].foodId)
+                console.log(response)
+                this.setState({ chosenFood: "" })
+                var index = this.state.foods.indexOf(foodName);
+                if (index > -1) {
+                    this.state.foods.splice(index, 1);
+                }
+            }
+            this.props.handleDelete(food[0].foodId)
         }
         catch (e) {
             console.log(e)
         }
     }
     async componentWillReceiveProps(nextProps) {
-        if (nextProps.categories !== undefined) {
+        if (nextProps.id !== undefined) {
             var id = this.props.id;
             const response = await fetchCondimentsByRestaurantId(id);
             const foods = await fetchFoodsByResraurantId(id)
@@ -66,17 +79,21 @@ class AddOptionToFood extends Component {
             })
         }
     }
+
     render() {
+        const { chosenFood } = this.state
+        const { foods } = this.props
         return (
+
             <Fragment>
-                <Paper style={styles.paper}>
-                    <div>Dodaj opcije hrani</div>
-                    <div>
+                <div style={styles.main}>
+                    <Paper style={styles.paper}>
+                        <div>Obriši hranu</div>
                         <form noValidate autoComplete="off">
                             <FormControl style={styles.formControl}>
                                 <InputLabel htmlFor="age-simple">Hrana</InputLabel>
                                 <Select
-                                    value={this.state.chosenFood}
+                                    value={chosenFood}
                                     onChange={this.handleChange("chosenFood")}
                                     inputProps={{
                                         name: 'food',
@@ -86,40 +103,20 @@ class AddOptionToFood extends Component {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    {this.props.foods !== undefined ? this.props.foods.map((food) => {
+                                    {foods !== undefined ? foods.map((food) => {
                                         return (
                                             <MenuItem value={food.name} key={food.foodId}>{food.name}</MenuItem>
                                         );
                                     }) : <div>" Nema hrane za prikaz"</div>}
                                 </Select>
                             </FormControl>
-                            <div>
-                                <TextField
-                                    id="standard-name"
-                                    label="Naziv opcije"
-                                    value={this.state.optionName}
-                                    onChange={this.handleChange('optionName')}
-                                    margin="normal"
-                                />
-                            </div>
-                            <div>
-                                <TextField
-                                    id="standard-name"
-                                    label="Cijena"
-                                    value={this.state.optionPrice}
-                                    onChange={this.handleChange('optionPrice')}
-                                    margin="normal"
-                                />
-                            </div>
+                            <Button variant="outlined" onClick={this.handleClick}>Obriši</Button>
                         </form>
-                    </div>
-
-                    <div><Button variant='outlined' onClick={this.handleClick} > Sačuvaj </Button></div>
-                </Paper>
-
+                    </Paper>
+                </div>
             </Fragment>
         );
     }
 }
 
-export default AddOptionToFood; 
+export default DeleteFoodItem;

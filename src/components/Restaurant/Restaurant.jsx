@@ -20,9 +20,11 @@ class Restaurant extends Component {
     state = {
         chosenFood: [],
         price: [],
+        chosenCondiments: [],
         totalPrice: 0,
         restaurant: [],
-        restaurantMenu: []
+        restaurantMenu: [],
+        orderedItems: [],
     };
     changeBasketState = (chosenFood, price) => {
         this.setState({ chosenFood: [...this.state.chosenFood, chosenFood], price: [...this.state.price, price] })
@@ -46,27 +48,33 @@ class Restaurant extends Component {
     handleRemoveItem = (food) => {
         this.setState({ chosenFood: food });
     };
+    handleAddItem = (item) => {
+        this.setState({ orderedItems: [...this.state.orderedItems, item] })
+    }
+    handleDelete = (id) => {
+        this.setState(data => ({
+            orderedItems: data.orderedItems.filter(el => el.foodId != id )
+        }));
+    }
 
     async componentDidMount() {
 
-        /*  const response = await fetchRestaurantByRouteName(toString(this.props.match.params.routeName).toLowerCase);
-          console.log(response.data);
-          this.setState({ restaurant: response.data })*/
         const response = await fetchRestaurants();
         const chosenRestaurant = response.data.filter(restaurant => restaurant.routeName === this.props.match.params.routeName)
-        this.setState({ restaurant: chosenRestaurant, restaurantMenu: chosenRestaurant[0].categories })
+        this.setState({ restaurant: chosenRestaurant[0], restaurantMenu: chosenRestaurant[0].categories })
 
     }
 
     render() {
-
-        const { chosenFood, totalPrice, restaurantMenu } = this.state
+        console.log(this.state.orderedItems)
+        const { id } = this.props
+        const { chosenFood, totalPrice, restaurantMenu, restaurant } = this.state
 
         return (
             <div style={styles.main}>
                 <div><CategoryList restaurantMenu={restaurantMenu}> </CategoryList></div>
-                <div><Menu restaurantMenu={restaurantMenu} total={this.total} changeBasketState={this.changeBasketState}></Menu></div>
-                <div> <OrderBasket handleRemoveItem={this.handleRemoveItem} totalRemove={this.totalRemove} chosenFood={chosenFood} totalPrice={totalPrice}></OrderBasket></div>
+                <div><Menu handleAddItem={this.handleAddItem} restaurantMenu={restaurantMenu} total={this.total} changeBasketState={this.changeBasketState}></Menu></div>
+                <div> <OrderBasket id={id} restaurantId={restaurant.id} handleRemoveItem={this.handleRemoveItem} totalRemove={this.totalRemove} chosenFood={chosenFood} totalPrice={totalPrice}></OrderBasket></div>
             </div>
         );
 

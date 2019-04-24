@@ -6,6 +6,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 
+
 const styles = theme => ({
   root: {
     marginTop: "20px" ,
@@ -37,6 +38,10 @@ class CategoryList extends React.Component {
     return (
       <Paper>
       <div className={classes.root}>
+      {
+          restaurantMenu.map(({name}) => <button onClick={() => this.scrollTo(name)}>{name}</button>)
+        }
+
         <List component="nav">
         {restaurantMenu.map(name =>  {
           return <ListItem

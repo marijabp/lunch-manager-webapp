@@ -29,19 +29,19 @@ class NavBar extends React.Component {
     anchorEl: null,
     name: "",
   };
-  getUsersName = () => {
-    let email = this.props.loginEmail;
-    let name = "";
-    let users = JSON.parse(localStorage.getItem('users'))
-    if (users) {
-      for (let i = 0; i < users.length; i++) {
-        if (users[i].email === email) {
-          name = users[i].name;
-        }
-      }
-    }
-    return name;
-  }
+  /* getUsersName = () => {
+     let email = this.props.loginEmail;
+     let name = "";
+     let users = JSON.parse(localStorage.getItem('users'))
+     if (users) {
+       for (let i = 0; i < users.length; i++) {
+         if (users[i].email === email) {
+           name = users[i].name;
+         }
+       }
+     }
+     return name;
+   }*/
   handleChange = () => {
     this.props.logOut();
   };
@@ -49,12 +49,9 @@ class NavBar extends React.Component {
   handleMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
-
   handleClose = () => {
     this.setState({ anchorEl: null });
   };
-  handleProfile = () => {
-  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.user !== undefined) {
@@ -68,9 +65,10 @@ class NavBar extends React.Component {
     const { classes } = this.props;
     const { anchorEl, name } = this.state;
     const open = Boolean(anchorEl);
-    return (
-      <div className={classes.root}>
 
+    return (
+
+      <div className={classes.root}>
         <AppBar position="static" color="default">
           <Toolbar>
             <Typography variant="h6" className={classes.grow}>

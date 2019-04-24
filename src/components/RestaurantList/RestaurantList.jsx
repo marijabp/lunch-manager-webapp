@@ -10,8 +10,9 @@ const styles = {
         flexDirection: "column",
         flexWrap: "wrap",
         backgroundImage: "url(" + Background + ")",
-        backgroundSize: "cover",
-        maxWidth: "1500px",
+        backgroundSize: "100%",
+        maxWidth: "1800px",
+        justifyContent: "space-around",
     },
     paper: {
         padding: "15px",
@@ -38,16 +39,15 @@ const styles = {
 
 class RestaurantList extends Component {
     state = {
-        restaurants:[],
-      }
-    
-      async componentDidMount() {
-      
+        restaurants: [],
+    }
+
+    async componentDidMount() {
         const response = await fetchRestaurants();
-        this.setState({restaurants : response.data})
-      
-}
-     
+        this.setState({ restaurants: response.data })
+
+    }
+
 
     render() {
         const { restaurants } = this.state
@@ -66,10 +66,10 @@ class RestaurantList extends Component {
                                         <div>{restaurant.workTime}</div>
                                         <div>Ovo su kategrije: {restaurant.categories.map((category) => {
                                             return (
-                                                 <div key={category.categoryId}> {category.name}</div> 
-                                                 )
-                                        } )} </div>
-                                       
+                                                <div key={category.categoryId}> {category.name}</div>
+                                            )
+                                        })} </div>
+
                                     </div>
                                 </div>
                             </Paper>

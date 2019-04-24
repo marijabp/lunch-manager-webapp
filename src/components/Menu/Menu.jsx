@@ -22,12 +22,11 @@ class Menu extends Component {
     this.setState({ orderDialogOpen: !this.state.orderDialogOpen, selectedFood })
   }
 
-  
+
 
   render() {
     const { changeBasketState, total, restaurantMenu } = this.props
     const { orderDialogOpen, selectedFood } = this.state
-    console.log(this.props.restaurantMenu)
     return (
       <Fragment>
         <div style={styles.main}>
@@ -38,11 +37,18 @@ class Menu extends Component {
                 toggleOrderDialog={this.toggleOrderDialog}
                 key={category.categoryId}
                 category={category}
-                 />
+              />
             })
             }</div>
         </div>
-        {orderDialogOpen && <OrderDialog toggleOrderDialog={this.toggleOrderDialog} selectedFood={selectedFood} changeBasketState={changeBasketState} total={total}></OrderDialog>}
+        {orderDialogOpen &&
+          <OrderDialog
+            toggleOrderDialog={this.toggleOrderDialog}
+            selectedFood={selectedFood}
+            changeBasketState={changeBasketState}
+            handleAddItem={this.props.handleAddItem}
+            total={total} />
+        }
       </Fragment>
     );
   }

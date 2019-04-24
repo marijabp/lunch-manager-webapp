@@ -143,8 +143,9 @@ class Authentication extends Component {
         console.log("awaiting")
         try {
             //  const response = await login(this.state.emailLogIn, this.state.passwordLogIn);
-              const response = await login("angelo@gmail.com", 123456);
-            //const response = await login("m@gmail.com", 123456);
+             const response = await login("angelo@gmail.com", 123456);
+           // const response = await login("m@gmail.com", 123456);
+           console.log(response)
             if (response.status === 200) {
                 this.props.logIn();
                 this.props.changeEmail(this.state.emailLogIn)

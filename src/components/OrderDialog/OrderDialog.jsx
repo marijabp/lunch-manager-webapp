@@ -26,9 +26,9 @@ export default class OrderDialog extends React.Component {
     orderOptions: {
       portionSize: "",
       portionQuantity: 1,
-      condiments: [],
       chosenOption: "",
-    }
+    },
+    condiments:[]
   }
 
   handleClose = () => {
@@ -38,19 +38,23 @@ export default class OrderDialog extends React.Component {
   handleChangeOption = event => {
     this.setState({ chosenOption: event.target.value });
   };
+  handleAddCondiments = (condiment) => {
+    this.setState({ condiments: [...this.state.condiments, condiment] });
+  };
 
   compareOptionsByPrice = (a, b) => {
-    if (a.price > b.price) return 1;
+    if (a.price > b.price)
+      return 1;
     return -1;
   };
 
   getChosenPrice() {
     const chosenOption = this.state.chosenOption
     for (let i = 0; i < this.props.selectedFood.options.length; i++) {
-      if (chosenOption === this.props.selectedFood.options[i].option)
-        return Number(Math.round(this.props.selectedFood.options[i].price+'e'+2)+'e-'+2);
+      if (chosenOption === this.props.selectedFood.options[i].name)
+        return Number(Math.round(this.props.selectedFood.options[i].price + 'e' + 2) + 'e-' + 2);
     }
-    return Number(Math.round(this.props.selectedFood.minPrice+'e'+2)+'e-'+2);
+    return Number(Math.round(this.props.selectedFood.minPrice + 'e' + 2) + 'e-' + 2);
   };
 
   handleMenuItemClick = (event, index) => {
@@ -64,25 +68,24 @@ export default class OrderDialog extends React.Component {
   handleAdd = () => {
     const chosenFood = this.props.selectedFood.foodName
     var price = this.getChosenPrice() * (this.state.selectedIndex)
-    var condiments=this.state.condiments
-    var chosenOption=this.state.chosenOption
-    var portionQuantity=this.state.portionQuantity
-    var food={
-      "name":chosenFood,
-      "price":price,
-      "condiments":condiments,
-      "chosenOption":chosenOption,
-      "quantity":portionQuantity,
+    var condiments = this.state.condiments
+    var chosenOption = this.state.chosenOption
+    var food = {
+      "name": chosenFood,
+      "quantity": this.state.selectedIndex,
+      "chosenOption": chosenOption,
     }
     this.props.handleAddItem(food)
-    this.props.changeBasketState(chosenFood + ' - ' + price + '  KM', price)
+    this.props.changeBasketState(chosenFood + ' - ' + price + '  KM', price, food)
     this.props.total(price);
     this.props.toggleOrderDialog();
   }
   render() {
     const { foodName, options, condiments, minPrice } = this.props.selectedFood
     const { chosenOption, anchorEl, selectedIndex = 0 } = this.state
+
     options.sort(this.compareOptionsByPrice)
+    
     return (
       <div>
         <Dialog
@@ -90,12 +93,14 @@ export default class OrderDialog extends React.Component {
           onClose={this.props.toggleOrderDialog}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title"><div style={styles.dialogTitle}>{foodName}   {formatPrice((this.getChosenPrice() * (selectedIndex)) || (minPrice))} </div></DialogTitle>
+          <DialogTitle id="form-dialog-title"><div style={styles.dialogTitle}>
+            {foodName} "   "  {formatPrice((this.getChosenPrice() * selectedIndex) || (minPrice))} </div>
+          </DialogTitle>
           <DialogContent>
             <DialogContentText>
 
             </DialogContentText>
-            <div>{condiments.length > 0 && <CondimentOrder condiments={condiments}> </CondimentOrder>}</div>
+            <div>{condiments.length > 0 && <CondimentOrder handleAddCondiment={this.handleAddCondiments} condiments={condiments}> </CondimentOrder>}</div>
             <div>{options.length > 1 && <PortionSize handleChangeOption={this.handleChangeOption} chosenOption={chosenOption} options={options}></PortionSize>}</div>
             <div><PortionQuantity anchorEl={anchorEl} selectedIndex={selectedIndex} handleClickListItem={this.handleClickListItem} handleMenuItemClick={this.handleMenuItemClick} /></div>
           </DialogContent>

@@ -29,19 +29,7 @@ class NavBar extends React.Component {
     anchorEl: null,
     name: "",
   };
-  /* getUsersName = () => {
-     let email = this.props.loginEmail;
-     let name = "";
-     let users = JSON.parse(localStorage.getItem('users'))
-     if (users) {
-       for (let i = 0; i < users.length; i++) {
-         if (users[i].email === email) {
-           name = users[i].name;
-         }
-       }
-     }
-     return name;
-   }*/
+ 
   handleChange = () => {
     this.props.logOut();
   };
@@ -52,7 +40,6 @@ class NavBar extends React.Component {
   handleClose = () => {
     this.setState({ anchorEl: null });
   };
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.user !== undefined) {
       this.setState({

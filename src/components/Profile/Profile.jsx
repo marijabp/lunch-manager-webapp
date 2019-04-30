@@ -4,7 +4,6 @@ import Background from '../../images/profile.jpg';
 import Address from '../Address';
 import ChangePassword from '../ChangePassword';
 import BasicUserData from '../BasicUserData';
-import { fetchRestaurantById } from '../../httpClient/RestaurantAPI/restaurantAPI';
 
 
 const styles = {
@@ -14,7 +13,7 @@ const styles = {
         display: "flex",
         backgroundRepeat: "repeat",
         // flexDirection: "row",
-        justifyContent: "start",
+        justifyContent: "center",
         flexWrap: "wrap",
         maxWidth: "1600px",
         height: "900px",
@@ -35,36 +34,26 @@ class Profile extends Component {
     state = {
         user: [],
     }
-    async componentWillReceiveProps(nextProps) {
-        if (nextProps.user !== undefined) {
-            var userId=this.props.id
-            if (this.props.role === 'Restaurant') {
-                const response =await fetchRestaurantById(userId)
-                this.setState({ user: response.data })
-            }
-            else {
-                var user = {
-                    "name": nextProps.user.name,
-                    "surrname": nextProps.user.surrname,
-                }
-                this.setState({ user: user })
-            }
-        }
-    }
     changeData = (newData) => {
         this.setState({ user: newData })
     }
 
-
     render() {
-        const { loginEmail, id, role } = this.props
-        const { user } = this.state
-        console.log(this.props.user)
+        const { id, role, user, loginEmail } = this.props
+        console.log(this.props.loginEmail)
         return (
             <div style={styles.main}>
-                <ChangePassword loginEmail={loginEmail} />
-                <Address id={id} user={this.props.user}/>
-                <BasicUserData id={id} role={role} changeData={this.changeData} user={this.props.user}></BasicUserData>
+                <ChangePassword
+                    id={id}
+                    loginEmail={loginEmail}
+                    role={role} />
+                <Address
+                    id={id}
+                    user={user} />
+                <BasicUserData
+                    id={id}
+                    role={role}
+                    user={user} />
             </div>
 
 

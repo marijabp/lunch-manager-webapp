@@ -16,12 +16,12 @@ class PortionSize extends Component {
                 <RadioGroup
                     aria-label="PortionSize"
                     name="portionsize"
-                    value={chosenOption || options[0].option}
+                    value={chosenOption || options[0].name}
                     onChange={handleChangeOption}
                 >
                     {options.map( item => {
                         return <FormControlLabel
-                            key={item.name}
+                            key={item.optionId}
                             value={item.name}
                             control={<Radio color="primary"/>}
                             label={item.name + " (" + item.price + "KM)"}/>

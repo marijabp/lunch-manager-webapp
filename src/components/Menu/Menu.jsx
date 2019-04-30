@@ -12,17 +12,15 @@ const styles = {
   }
 }
 
-
 class Menu extends Component {
   state = {
     orderDialogOpen: false,
     restaurantMenu: [],
   };
+  
   toggleOrderDialog = (selectedFood) => {
     this.setState({ orderDialogOpen: !this.state.orderDialogOpen, selectedFood })
   }
-
-
 
   render() {
     const { changeBasketState, total, restaurantMenu } = this.props
@@ -47,6 +45,7 @@ class Menu extends Component {
             selectedFood={selectedFood}
             changeBasketState={changeBasketState}
             handleAddItem={this.props.handleAddItem}
+            handleAddCondiment={this.props.handleAddCondiment}
             total={total} />
         }
       </Fragment>

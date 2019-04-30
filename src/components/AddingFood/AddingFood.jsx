@@ -6,9 +6,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { fetchCondimentsByRestaurantId } from '../../httpClient/CondimentAPI/condimentAPI';
 import { addFood, fetchFoodsByResraurantId } from '../../httpClient/FoodAPI/foodAPI';
 import { addOption } from '../../httpClient/OptionAPI/optionAPI';
+import StatusMessage from '../StatusMessage';
 
 const styles = {
     main: {
@@ -24,6 +24,7 @@ const styles = {
         backgroundColor: "rgb(245, 245, 245)",
         borderRadius: "10px",
         align: "center",
+        opacity: "0.8",
     },
     formControl: {
         width: "500px",
@@ -35,49 +36,51 @@ class AddingFood extends Component {
         foodName: "",
         newCategory: "",
         foodDescription: "",
-        foodPrice:0,
-        foods:[],
+        foodPrice: 0,
+        statusMessage: "",
     };
 
     handleChange = name => event => {
         this.setState({ [name]: event.target.value });
     };
 
-    handleClick =async () => {
+    handleClick = async () => {
         try {
-            var restaurantId=this.props.id;
-            var name = this.state.newCategory;
-            const category = this.props.categories.filter(category => category.name === name)
+            var restaurantId = this.props.id;
+            var foodName = this.state.foodName;
+
+            var categoryName = this.state.newCategory;
+            const category = this.props.categories.filter(category => category.name === categoryName)
             var categoryId = category[0].categoryId;
-            const response =await addFood(categoryId, this.state.foodName, this.state.foodDescription)
-            console.log(response)
-            var foodName =this.state.foodName;
-            var foods=await fetchFoodsByResraurantId(restaurantId);
-            const food= foods.data.filter(food => foodName===food.name);
-            const addNewOption=await addOption(food[0].foodId, "", this.state.foodPrice)
-            var newFoodItem= {
-                "foodId":food[0].foodId,
+
+            const addNewFood = await addFood(categoryId, foodName, this.state.foodDescription)
+
+            var foods = await fetchFoodsByResraurantId(restaurantId);
+            const food = foods.data.filter(food => foodName === food.name);
+            const addNewOption = await addOption(food[0].foodId, "Standard", this.state.foodPrice)
+     
+            var newFoodItem = {
+                "foodId": food[0].foodId,
                 "categoryId": categoryId,
                 "name": this.state.foodName,
                 "description": this.state.foodDescription,
             }
+
             this.props.pushFood(newFoodItem)
+
+            this.setState({ foodName: "", foodDescription: "", newCategory: "", foodPrice: 0 })
+            if (addNewFood.status === 200 && addNewOption.status === 200) {
+                this.setState({ statusMessage: "Uspješno ste dodali hranu!" })
+            }
         }
         catch (e) {
             console.log(e)
         }
     }
-    async componentWillReceiveProps(nextProps) {
-        if (nextProps.categories !== undefined) {
-            var id = this.props.id;
-            const foods= await fetchFoodsByResraurantId(id)
-            this.setState({
-                foods: foods.data,
-            })
-        }
-    }
 
     render() {
+        const { newCategory, foodName, foodDescription, foodPrice, statusMessage } = this.state
+        const { categories } = this.props
         return (
             <Fragment>
                 <div style={styles.main}>
@@ -88,7 +91,7 @@ class AddingFood extends Component {
                                 <FormControl style={styles.formControl}>
                                     <InputLabel htmlFor="age-simple">Kategorije hrane</InputLabel>
                                     <Select
-                                        value={this.state.newCategory}
+                                        value={newCategory}
                                         onChange={this.handleChange("newCategory")}
                                         inputProps={{
                                             name: 'cateogry',
@@ -98,18 +101,23 @@ class AddingFood extends Component {
                                         <MenuItem value="">
                                             <em>None</em>
                                         </MenuItem>
-                                        {this.props.categories !== undefined ? this.props.categories.map((category) => {
-                                            return (
-                                                <MenuItem value={category.name} key={category.categoryId}>{category.name}</MenuItem>
-                                            );
-                                        }) : <div>" Nema kategorija za prikaz"</div>}
+                                        {categories !== undefined ?
+                                            categories.map((category) => {
+                                                return (
+                                                    <MenuItem value={category.name} key={category.categoryId}>
+                                                        {category.name}
+                                                    </MenuItem>
+                                                );
+                                            })
+                                            :
+                                            <div>"Nema kategorija za prikaz"</div>}
                                     </Select>
                                 </FormControl>
                                 <div>
                                     <TextField
                                         id="standard-name"
                                         label="Naziv hrane"
-                                        value={this.state.foodName}
+                                        value={foodName}
                                         onChange={this.handleChange('foodName')}
                                         margin="normal"
                                     />
@@ -118,7 +126,7 @@ class AddingFood extends Component {
                                     <TextField
                                         id="standard-name"
                                         label="Opis hrane"
-                                        value={this.state.foodDescription}
+                                        value={foodDescription}
                                         onChange={this.handleChange('foodDescription')}
                                         margin="normal"
                                     />
@@ -127,15 +135,16 @@ class AddingFood extends Component {
                                     <TextField
                                         id="standard-name"
                                         label="Minimalna cijena hrane"
-                                        value={this.state.foodPrice}
+                                        value={foodPrice}
                                         onChange={this.handleChange('foodPrice')}
                                         margin="normal"
                                     />
                                 </div>
                             </form>
                         </div>
-                       
+
                         <div><Button variant='outlined' onClick={this.handleClick} > Dodaj hranu </Button></div>
+                        <StatusMessage>{statusMessage}</StatusMessage>
                     </Paper>
                 </div>
             </Fragment>

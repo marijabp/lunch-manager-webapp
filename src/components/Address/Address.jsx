@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import { addAddress } from '../../httpClient/AddressAPI/addressAPI';
+import { addAddress, updateAddress, fetchAddresses } from '../../httpClient/AddressAPI/addressAPI';
+import StatusMessage from '../StatusMessage';
+
 
 const styles = {
     paper: {
@@ -13,6 +15,8 @@ const styles = {
         marginLeft: "20px",
         marginRight: "20px",
         backgroundColor: "rgb(245, 245, 245)",
+        borderRadius: "10px",
+        opacity: "0.8",
     },
     text: {
         fontFamily: "Verdana, Geneva, sans-serif",
@@ -22,9 +26,10 @@ const styles = {
 
 class Address extends Component {
     state = {
-        addressName: this.props.user!= undefined ? this.props.user.address : " ",
-        number: "",
-        city:"",
+        addressName: (this.props.user !== undefined && this.props.user.address.length > 0) ? this.props.user.address[0].name : "",
+        number: (this.props.user !== undefined && this.props.user.address.length > 0) ? this.props.user.address[0].number : "",
+        city: (this.props.user !== undefined && this.props.user.address.length > 0) ? this.props.user.address[0].city : "",
+        statusMessage: "",
     }
 
     handleChange = name => event => {
@@ -34,17 +39,29 @@ class Address extends Component {
     handleClick = async () => {
         try {
             var id = this.props.id;
-            const response = await addAddress( id, this.state.addressName, this.state.number, this.state.city )
-            console.log(response)
+            const response = await fetchAddresses()
+            const addresses = response.data
+            const address = addresses.filter(address => address.userId === id)
+
+            if (address.length === 0) {
+                const response1 = await addAddress(id, this.state.addressName, this.state.number, this.state.city)
+                if (response1.status === 200) {
+                    this.setState({ statusMessage: "Uspješno sačuvano!" })
+                }
+            }
+            else {
+                const response1 = await updateAddress(address[0].id, id, this.state.addressName, this.state.number, this.state.city)
+                if (response1.status === 200) {
+                    this.setState({ statusMessage: "Uspješno sačuvano!" })
+                }
+            }
         }
         catch (e) {
             console.log(e)
         }
     }
-
     render() {
-        console.log(this.props.user)
-        console.log(this.props.id)
+        const { addressName, number, city, statusMessage } = this.state
         return (
 
             <div style={styles.text}>
@@ -53,24 +70,25 @@ class Address extends Component {
                     <form noValidate autoComplete="off">
                         <TextField
                             label="Naziv adrese"
-                            value={this.state.addressName}
+                            value={addressName}
                             onChange={this.handleChange("addressName")}
                             margin="normal"
                         />
                         <TextField
                             label="Broj"
-                            value={this.state.number}
+                            value={number}
                             onChange={this.handleChange("number")}
                             margin="normal"
                         />
                         <TextField
                             label="Grad"
-                            value={this.state.city}
+                            value={city}
                             onChange={this.handleChange("city")}
                             margin="normal"
                         />
                     </form>
-                    <div><Button variant="outlined" onClick={this.handleClick}> Potvrdi </Button></div>
+                    <div><Button variant="outlined" onClick={this.handleClick}> Sačuvaj </Button></div>
+                    <StatusMessage> {statusMessage} </StatusMessage>
                 </Paper>
             </div>
         );

@@ -45,7 +45,6 @@ class RestaurantList extends Component {
     async componentDidMount() {
         const response = await fetchRestaurants();
         this.setState({ restaurants: response.data })
-
     }
 
 
@@ -64,7 +63,7 @@ class RestaurantList extends Component {
                                     <div style={styles.text}>
                                         <div> {restaurant.description} </div>
                                         <div>{restaurant.workTime}</div>
-                                        <div>Ovo su kategrije: {restaurant.categories.map((category) => {
+                                        <div>Kategorije: {restaurant.categories.map((category) => {
                                             return (
                                                 <div key={category.categoryId}> {category.name}</div>
                                             )

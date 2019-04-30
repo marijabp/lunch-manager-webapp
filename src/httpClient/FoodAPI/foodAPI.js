@@ -10,3 +10,6 @@ export const fetchFoodsByResraurantId = (restaurantId) => axiosInstance.get(FOOD
 
 const DELETEFOOD_PATH='deletefood/'
 export const deleteFood = (id) => axiosInstance.post(DELETEFOOD_PATH+id, {id})
+
+const FOOD_PATH= '/'
+export const fethcFoodByFoodId = (foodId) => axiosInstance.get(FOOD_PATH+foodId, {foodId})

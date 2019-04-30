@@ -8,7 +8,7 @@ const styles = {
         display: "flex",
         width: "200px",
         justifyContent: "space-around",
-        flexDirection: "row",
+        flexDirection: "column",
         flexWrap: "wrap",
         padding: "10px",
         cursor: "pointer",

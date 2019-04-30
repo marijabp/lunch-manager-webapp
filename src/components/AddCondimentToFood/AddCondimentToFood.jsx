@@ -6,8 +6,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
-import { fetchCondimentsByRestaurantId, addCondiment } from '../../httpClient/CondimentAPI/condimentAPI';
+import { addCondiment } from '../../httpClient/CondimentAPI/condimentAPI';
 import { fetchFoodsByResraurantId } from '../../httpClient/FoodAPI/foodAPI';
+import StatusMessage from '../StatusMessage';
 
 const styles = {
     main: {
@@ -23,6 +24,7 @@ const styles = {
         backgroundColor: "rgb(245, 245, 245)",
         borderRadius: "10px",
         align: "center",
+        opacity: "0.8",
     },
     formControl: {
         width: "500px",
@@ -33,7 +35,7 @@ class AddCondimentToFood extends Component {
     state = {
         chosenFood: "",
         condimentName: "",
-        foods: [],
+        statusMessage: "",
     };
 
     handleChange = name => event => {
@@ -47,26 +49,20 @@ class AddCondimentToFood extends Component {
             var foods = await fetchFoodsByResraurantId(restaurantId);
             const food = foods.data.filter(food => foodName === food.name);
             const response = await addCondiment(food[0].foodId, restaurantId, this.state.condimentName)
-              
+            this.setState({ chosenFood: "", condimentName: "" })
+            
+            if(response.status===200){
+                this.setState({statusMessage: "Uspješno ste dodali prilog hrani!"})
+            }
         }
         catch (e) {
             console.log(e)
         }
     }
-    async componentWillReceiveProps(nextProps) {
-        if (nextProps.categories !== undefined) {
-            var id = this.props.id;
-            const response = await fetchCondimentsByRestaurantId(id);
-            const foods = await fetchFoodsByResraurantId(id)
 
-            this.setState({
-                condiments: response.data,
-                foods: foods.data,
-            })
-        }
-    }
     render() {
         const { foods } = this.props
+        const { chosenFood, condimentName, statusMessage } = this.state
         return (
             <Fragment>
                 <Paper style={styles.paper}>
@@ -76,7 +72,7 @@ class AddCondimentToFood extends Component {
                             <FormControl style={styles.formControl}>
                                 <InputLabel htmlFor="age-simple">Hrana</InputLabel>
                                 <Select
-                                    value={this.state.chosenFood}
+                                    value={chosenFood}
                                     onChange={this.handleChange("chosenFood")}
                                     inputProps={{
                                         name: 'food',
@@ -98,7 +94,7 @@ class AddCondimentToFood extends Component {
                                 <TextField
                                     id="standard-name"
                                     label="Naziv priloga"
-                                    value={this.state.condimentName}
+                                    value={condimentName}
                                     onChange={this.handleChange('condimentName')}
                                     margin="normal"
                                 />
@@ -107,6 +103,7 @@ class AddCondimentToFood extends Component {
                     </div>
 
                     <div><Button variant='outlined' onClick={this.handleClick} > Sačuvaj </Button></div>
+                    <StatusMessage>{statusMessage}</StatusMessage>
                 </Paper>
 
             </Fragment>

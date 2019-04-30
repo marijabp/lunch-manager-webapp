@@ -38,21 +38,16 @@ class CategoryList extends React.Component {
     return (
       <Paper>
       <div className={classes.root}>
-      {
-          restaurantMenu.map(({name}) => <button onClick={() => this.scrollTo(name)}>{name}</button>)
-        }
-
         <List component="nav">
-        {restaurantMenu.map(name =>  {
+        {restaurantMenu.map(category =>  {
           return <ListItem
             className={classes.item}
             button
-            selected={this.state[name.name]}
-            onClick={event => this.handleListItemClick(name) }
-            key={name.categoryId}
+            selected={this.state[category.name]}
+            onClick={event => this.handleListItemClick(category) }
+            key={category.categoryId}
           >
-          
-          <ListItemText >{name.name}</ListItemText>
+          <ListItemText >{category.name}</ListItemText>
           </ListItem>})}
         </List>
       </div>

@@ -13,13 +13,23 @@ class CondimentOrder extends Component {
   handleChange = name => event => {
     this.setState({ [name]: event.target.checked });
   };
+  onChangeFavorite = event => {
+    console.log(event.target.checked, event.target.value);
+    if(event.target.checked===true)
+         this.props.handleAddCondiment(event.target.value)
+   /* if(event.target.checked===true){
+        this.setState({condiments: [...this.state.condiments, event.target.value]})*/
+    
+   /* else{
+        this.setState({
+            condiments: condiments.filter(el => el !== event.target.value)
+        })
+    }*/
+};
 
   render() {
     const { condiments } = this.props
-    
     return (
-
-
       <FormControl component="fieldset">
         <FormLabel component="legend">Prilozi</FormLabel>
         <FormGroup>
@@ -29,7 +39,7 @@ class CondimentOrder extends Component {
               control={
                 <Checkbox
                   checked={this.state[condiment.name]}
-                  onChange={this.handleChange("condiment.name")}
+                  onChange={this.handleChange("condiment.name") && this.onChangeFavorite}
                   value={condiment.name}
                   color="primary"
                 />

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import AddingFood from '../AddingFood';
 import AddNewCategory from '../AddNewCategory/AddNewCategory';
 import { fetchCondimentsByRestaurantId } from '../../httpClient/CondimentAPI/condimentAPI';
@@ -7,6 +7,7 @@ import AddOptionToFood from '../AddOptionToFood/AddOptionToFood';
 import DeleteFoodItem from '../DeleteFoodItem/DeleteFoodItem';
 import Background from '../../images/restaurantactions1.jpg';
 import { fetchFoodsByResraurantId } from '../../httpClient/FoodAPI/foodAPI';
+import PendingOrders from '../PendingOrders/PendingOrders';
 
 const styles = {
     main: {
@@ -64,29 +65,50 @@ class RestaurantActions extends Component {
     }
     handleDelete = (id) => {
         this.setState(data => ({
-            foods: data.foods.filter(el => el.foodId != id )
+            foods: data.foods.filter(el => el.foodId !== id)
         }));
     }
 
-
-
     render() {
-        const { loginEmail, id } = this.props
-        const { categories, foods } = this.state
+        const { id } = this.props
+        const { categories, foods, condiments } = this.state
 
         return (
             <div style={styles.main}>
                 <div style={styles.addFood}>
-                    <AddingFood email={loginEmail} id={id} categories={categories} pushFood={this.pushFood}></AddingFood>
+                    <AddingFood
+                        id={id}
+                        categories={categories}
+                        pushFood={this.pushFood} />
 
                     <div style={styles.addFoodAccessories}>
-                        <AddCondimentToFood id={this.props.id} foods={foods} categories={this.props.restaurant.categories} condiments={this.state.condiments}></AddCondimentToFood>
-                        <AddOptionToFood id={this.props.id} foods={foods} categories={this.props.restaurant.categories} condiments={this.state.condiments}></AddOptionToFood>
+                        <AddCondimentToFood
+                            id={id}
+                            foods={foods}
+                            categories={this.props.restaurant.categories}
+                            condiments={condiments} />
+
+                        <AddOptionToFood
+                            id={id}
+                            foods={foods}
+                            categories={this.props.restaurant.categories}
+                            condiments={condiments} />
+                    </div>
+                </div>
+                <div style={styles.addFood}>
+                    <div><AddNewCategory
+                        id={id}
+                        pushCategory={this.pushCategory} />
+                    </div>
+                    <div><DeleteFoodItem
+                        id={id}
+                        foods={foods}
+                        handleDelete={this.handleDelete}
+                        categories={this.props.restaurant.categories} />
                     </div>
                 </div>
                 <div>
-                    <div><AddNewCategory id={this.props.id} pushCategory={this.pushCategory}></AddNewCategory></div>
-                    <div><DeleteFoodItem id={this.props.id} foods={foods} handleDelete={this.handleDelete} categories={this.props.restaurant.categories}></DeleteFoodItem></div>
+                    <PendingOrders id={id}></PendingOrders>
                 </div>
             </div>
 

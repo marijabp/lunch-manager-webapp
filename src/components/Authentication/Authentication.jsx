@@ -31,6 +31,7 @@ const styles = {
         padding: "5px",
         backgroundColor: "#DAAD86",
         maxWidth: "230px",
+        borderRadius: "10px",
     }
 }
 
@@ -40,10 +41,10 @@ class Authentication extends Component {
         super(props);
         this.state = {
             id: 0,
-            emailLogIn: "",
-            emailLogInErrorMessage: "",
+            logInEmail: "",
+            logInEmailErrorMessage: "",
 
-            passwordLogIn: "",
+            logInPassword: "",
             loginErrorMessage: "",
 
             name: "",
@@ -119,7 +120,6 @@ class Authentication extends Component {
 
     handleClickRegister = async () => {
         let valid = this.validation();
-        console.log(valid);
 
         if (valid) {
             this.props.changeRole(this.state.role);
@@ -130,7 +130,7 @@ class Authentication extends Component {
                 "role": this.state.role,
                 "email": this.state.email,
                 "password": this.state.password,
-                "passwordConfirm": this.state.password1
+                "passwordConfirm": this.state.password1,
             }
             const response = registration(user, this.state.name, this.state.surname);
             console.log(response);
@@ -142,23 +142,22 @@ class Authentication extends Component {
         let loginErrorMessage = "Input valid data";
         console.log("awaiting")
         try {
-            //  const response = await login(this.state.emailLogIn, this.state.passwordLogIn);
-             const response = await login("angelo@gmail.com", 123456);
-           // const response = await login("m@gmail.com", 123456);
-           console.log(response)
+            //  const response = await login(this.state.logInEmail, this.state.logInPassword);
+            //const response = await login("angelo@gmail.com", 1234567);
+             const response = await login("marija@gmail.com", 123456);
+            console.log(response)
             if (response.status === 200) {
+                var userId = response.data.id
                 this.props.logIn();
-                this.props.changeEmail(this.state.emailLogIn)
+                this.props.changeEmail(this.state.logInEmail)
                 this.props.changeRole(response.data.role);
-                this.props.changeId(response.data.id)
+                this.props.changeId(userId)
                 if (response.data.role === 'Restaurant') {
-                    var id = response.data.id;
-                    const restaurant = await fetchRestaurantById(id)
+                    const restaurant = await fetchRestaurantById(userId)
                     this.props.changeData(restaurant.data)
                 }
                 else {
-                    var id1 = response.data.id;
-                    const customer = await fetchCustomerById(id1)
+                    const customer = await fetchCustomerById(userId)
                     this.props.changeData(customer.data)
                 }
                 loginErrorMessage = "";
@@ -170,8 +169,9 @@ class Authentication extends Component {
         }
     };
 
-
     render() {
+        const { loginErrorMessage, logInEmail, logInPassword, roleErrorMessage, role, nameErrorMessage, name, surnameErrorMessage,
+            surname, emailErrorMessage, email, passwordErrorMessage, password, password1ErrorMessage, password1 } = this.state
         return (
             <div style={styles.main}>
                 <div >
@@ -179,101 +179,99 @@ class Authentication extends Component {
                         <div className="login">
                             <form autoComplete="off">
                                 <TextField
-                                    // id="standard-required"
-                                    error={this.state.loginErrorMessage !== ""}
+                                    error={loginErrorMessage !== ""}
                                     label="E-mail"
-                                    value={this.state.emailLogIn}
-                                    onChange={this.handleChangeData("emailLogIn")}
+                                    value={logInEmail}
+                                    onChange={this.handleChangeData("logInEmail")}
                                     margin="normal"
                                 />
                                 <TextField
-                                    // id="standard-password-input"
-                                    error={this.state.loginErrorMessage !== ""}
-                                    label="Password"
+                                    error={loginErrorMessage !== ""}
+                                    label="Lozinka"
                                     type="password"
                                     autoComplete="current-password"
                                     margin="normal"
-                                    value={this.state.passwordLogIn}
-                                    onChange={this.handleChangeData("passwordLogIn")}
+                                    value={logInPassword}
+                                    onChange={this.handleChangeData("logInPassword")}
                                 />
-                                <div><Button onClick={this.handleClickLogIn}> Log in </Button></div>
-                                <ErrorMessage> {this.state.loginErrorMessage}</ErrorMessage>
+                                <div>
+                                    <Button
+                                        onClick={this.handleClickLogIn}
+                                        variant="outlined"
+                                        color="primary">
+                                        Log in
+                                    </Button>
+                                </div>
+                                <ErrorMessage> {loginErrorMessage}</ErrorMessage>
                             </form>
                         </div>
                     </Paper>
                 </div>
 
-
-                <div  >
+                <div>
                     <Paper style={styles.paper}>
+
                         <div className="register">
                             <form autoComplete="off">
                                 <FormControl component="fieldset" >
                                     <FormLabel component="legend">Role</FormLabel>
                                     <RadioGroup
-                                        error={this.state.roleErrorMessage !== ""}
+                                        error={roleErrorMessage}
                                         aria-label="Role"
                                         name="gender1"
-                                        value={this.state.role}
+                                        value={role}
                                         onChange={this.handleChange}
-
-
                                     >
                                         <FormControlLabel value="Customer" control={<Radio color="primary" />} label="Customer" />
                                         <FormControlLabel value="Restaurant" control={<Radio color="primary" />} label="Restaurant" />
                                     </RadioGroup>
                                 </FormControl>
-                                <ErrorMessage>{this.state.roleErrorMessage}</ErrorMessage>
+                                <ErrorMessage>{roleErrorMessage}</ErrorMessage>
                                 <div>
                                     <TextField
-                                        // id="standard-required"
-                                        error={this.state.nameErrorMessage !== ""}
-                                        label="Name"
-                                        value={this.state.name}
+                                        error={nameErrorMessage !== ""}
+                                        label="Ime"
+                                        value={name}
                                         onChange={this.handleChangeData("name")}
                                         margin="normal"
                                     />
-                                    <ErrorMessage>{this.state.NameErrorMessage}</ErrorMessage>
+                                    <ErrorMessage>{nameErrorMessage}</ErrorMessage>
 
-                                    {this.state.role === "Restaurant" ? " " :
+                                    {role === "Restaurant" ? " " :
                                         <TextField
-                                            // id="standard-required"
-                                            error={this.state.surnameErrorMessage !== ""}
-                                            label="Surname"
-                                            value={this.state.surname}
+                                            error={surnameErrorMessage !== ""}
+                                            label="Prezime"
+                                            value={surname}
                                             onChange={this.handleChangeData("surname")}
                                             margin="normal"
                                         />}
-                                    <ErrorMessage>{this.state.surnameErrorMessage}</ErrorMessage>
+                                    <ErrorMessage>{surnameErrorMessage}</ErrorMessage>
                                     <TextField
-                                        // id="standard-required"
                                         label="E-mail"
-                                        error={this.state.emailErrorMessage !== ""}
-                                        value={this.state.email}
+                                        error={emailErrorMessage !== ""}
+                                        value={email}
                                         onChange={this.handleChangeData("email")}
                                         margin="normal"
                                     />
-                                    <ErrorMessage>{this.state.emailErrorMessage}</ErrorMessage>
+                                    <ErrorMessage>{emailErrorMessage}</ErrorMessage>
                                     <TextField
-                                        // id="standard-password-input"
-                                        error={this.state.passwordErrorMessage !== ""}
-                                        label="Password"
+                                        error={passwordErrorMessage !== ""}
+                                        label="Lozinka"
                                         type="password"
                                         margin="normal"
-                                        value={this.state.password}
+                                        value={password}
                                         onChange={this.handleChangeData("password")}
                                     />
-                                    <ErrorMessage>{this.state.passwordErrorMessage}</ErrorMessage>
+                                    <ErrorMessage>{passwordErrorMessage}</ErrorMessage>
                                     <TextField
-                                        // id="standard-password-input"
-                                        error={this.state.password1ErrorMessage !== ""}
-                                        label="Repeat password!"
+                                        error={password1ErrorMessage !== ""}
+                                        label="Ponovo unesite lozinku"
                                         type="password"
                                         margin="normal"
-                                        value={this.state.password1}
+                                        value={password1}
                                         onChange={this.handleChangeData("password1")}
                                     />
-                                    <ErrorMessage>{this.state.password1ErrorMessage} </ErrorMessage>
+                                    <ErrorMessage>{password1ErrorMessage} </ErrorMessage>
                                 </div>
                                 <div>
                                     <Button
@@ -292,4 +290,4 @@ class Authentication extends Component {
     }
 }
 
-export default Authentication
+export default Authentication;

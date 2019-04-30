@@ -4,5 +4,5 @@ import axiosInstance from '../api'
 export const fetchCustomerById = (id) => axiosInstance.get(CUSTOMER_PATH+id, { id });
 
 const UPDATE_CUSTOMER_PATH = 'updatecustomer/'
-export const updateCustomer = (name, surrname, id) => axiosInstance.post(UPDATE_CUSTOMER_PATH+id, {name, surrname, id})
+export const updateCustomer = (id, name, surname) => axiosInstance.post(UPDATE_CUSTOMER_PATH+id, {id, name, surname})
 

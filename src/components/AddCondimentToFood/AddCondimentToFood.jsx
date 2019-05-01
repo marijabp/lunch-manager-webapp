@@ -66,7 +66,7 @@ class AddCondimentToFood extends Component {
         return (
             <Fragment>
                 <Paper style={styles.paper}>
-                    <div>Dodaj priloge hrani</div>
+                    <div>Dodaj prilog hrani</div>
                     <div>
                         <form noValidate autoComplete="off">
                             <FormControl style={styles.formControl}>

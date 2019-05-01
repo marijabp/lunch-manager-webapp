@@ -45,11 +45,9 @@ class RestaurantActions extends Component {
     async componentWillReceiveProps(nextProps) {
         if (nextProps.restaurant !== undefined) {
             var id = this.props.id;
-            const condimentsByRestaurantId = await fetchCondimentsByRestaurantId(id);
             const foodByRestaurantId = await fetchFoodsByResraurantId(id)
             this.setState({
                 categories: nextProps.restaurant.categories,
-                condiments: condimentsByRestaurantId.data,
                 foods: foodByRestaurantId.data
             })
         }

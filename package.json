@@ -2,6 +2,10 @@
   "name": "lunch-manager-webapp",
   "version": "0.1.0",
   "private": true,
+  "engines":{
+    "node":"v10.14.1",
+    "npm": "6.4.1"
+  },
   "dependencies": {
     "@material-ui/core": "^3.5.1",
     "axios": "^0.18.0",

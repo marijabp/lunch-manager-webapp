@@ -49,11 +49,12 @@ class AddCondimentToFood extends Component {
             var foods = await fetchFoodsByResraurantId(restaurantId);
             const food = foods.data.filter(food => foodName === food.name);
             const response = await addCondiment(food[0].foodId, restaurantId, this.state.condimentName)
-            this.setState({ chosenFood: "", condimentName: "" })
             
             if(response.status===200){
                 this.setState({statusMessage: "Uspješno ste dodali prilog hrani!"})
             }
+            this.setState({ chosenFood: "", condimentName: "" })
+            
         }
         catch (e) {
             console.log(e)
@@ -66,7 +67,7 @@ class AddCondimentToFood extends Component {
         return (
             <Fragment>
                 <Paper style={styles.paper}>
-                    <div>Dodaj priloge hrani</div>
+                    <div>Dodaj prilog hrani</div>
                     <div>
                         <form noValidate autoComplete="off">
                             <FormControl style={styles.formControl}>
@@ -86,7 +87,7 @@ class AddCondimentToFood extends Component {
                                         return (
                                             <MenuItem value={food.name} key={food.foodId}>{food.name}</MenuItem>
                                         );
-                                    }) : <div>" Nema hrane za prikaz"</div>}
+                                    }) : ""}
                                 </Select>
                             </FormControl>
 

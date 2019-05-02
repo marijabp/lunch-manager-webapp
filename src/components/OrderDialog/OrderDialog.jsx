@@ -23,12 +23,10 @@ const styles = {
 
 export default class OrderDialog extends React.Component {
   state = {
-    orderOptions: {
       portionSize: "",
       portionQuantity: 1,
-      chosenOption: "",
-    },
-    condiments:[]
+      chosenOption: "Standard",
+      condiments:[],
   }
 
   handleClose = () => {
@@ -74,6 +72,7 @@ export default class OrderDialog extends React.Component {
       "name": chosenFood,
       "quantity": this.state.selectedIndex,
       "chosenOption": chosenOption,
+      "condiments" : condiments,
     }
     this.props.handleAddItem(food)
     this.props.changeBasketState(chosenFood + ' - ' + price + '  KM', price, food)
@@ -83,7 +82,6 @@ export default class OrderDialog extends React.Component {
   render() {
     const { foodName, options, condiments, minPrice } = this.props.selectedFood
     const { chosenOption, anchorEl, selectedIndex = 0 } = this.state
-
     options.sort(this.compareOptionsByPrice)
     
     return (
@@ -94,7 +92,7 @@ export default class OrderDialog extends React.Component {
           aria-labelledby="form-dialog-title"
         >
           <DialogTitle id="form-dialog-title"><div style={styles.dialogTitle}>
-            {foodName} "   "  {formatPrice((this.getChosenPrice() * selectedIndex) || (minPrice))} </div>
+            {foodName}        {formatPrice((this.getChosenPrice() * selectedIndex) || (minPrice))} </div>
           </DialogTitle>
           <DialogContent>
             <DialogContentText>

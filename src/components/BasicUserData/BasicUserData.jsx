@@ -60,7 +60,7 @@ class BasicUserData extends Component {
         const { role } = this.props
         const { name, surname, workTime, description, statusMessage } = this.state
         return (
-            <div>
+            <div style={styles.text}>
 
                 {role === 'Restaurant' ?
                     <div>
@@ -87,6 +87,7 @@ class BasicUserData extends Component {
                                 />
                             </form>
                             <div><Button variant="outlined" onClick={this.handleClick}> Sačuvaj </Button></div>
+                            <StatusMessage>{statusMessage}</StatusMessage>
                         </Paper>
 
                     </div>

@@ -26,9 +26,9 @@ const styles = {
 
 class Address extends Component {
     state = {
-        addressName: (this.props.user !== undefined && this.props.user.address.length > 0) ? this.props.user.address[0].name : "",
-        number: (this.props.user !== undefined && this.props.user.address.length > 0) ? this.props.user.address[0].number : "",
-        city: (this.props.user !== undefined && this.props.user.address.length > 0) ? this.props.user.address[0].city : "",
+        addressName: (this.props.user.address !== undefined && this.props.user.address.length > 0) ? this.props.user.address[0].name : "",
+        number: (this.props.user.address !== undefined && this.props.user.address.length > 0) ? this.props.user.address[0].number : "",
+        city: (this.props.user.address !== undefined && this.props.user.address.length > 0) ? this.props.user.address[0].city : "",
         statusMessage: "",
     }
 
@@ -55,6 +55,7 @@ class Address extends Component {
                     this.setState({ statusMessage: "Uspješno sačuvano!" })
                 }
             }
+            this.props.changeAddress(this.state.addressName+", "+this.state.number+", "+this.state.city)
         }
         catch (e) {
             console.log(e)

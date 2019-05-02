@@ -39,8 +39,7 @@ class Profile extends Component {
     }
 
     render() {
-        const { id, role, user, loginEmail } = this.props
-        console.log(this.props.loginEmail)
+        const { id, role, user, loginEmail, changeAddress } = this.props
         return (
             <div style={styles.main}>
                 <ChangePassword
@@ -49,7 +48,8 @@ class Profile extends Component {
                     role={role} />
                 <Address
                     id={id}
-                    user={user} />
+                    user={user}
+                    changeAddress={changeAddress} />
                 <BasicUserData
                     id={id}
                     role={role}

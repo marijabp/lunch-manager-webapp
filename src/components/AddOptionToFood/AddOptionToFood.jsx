@@ -91,7 +91,7 @@ class AddOptionToFood extends Component {
                                             );
                                         })
                                         :
-                                        <div> Nema hrane za prikaz</div>}
+                                        ""}
                                 </Select>
                             </FormControl>
                             <div>

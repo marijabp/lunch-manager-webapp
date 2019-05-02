@@ -6,7 +6,7 @@ export const addCondiment = (foodId, restaurantId, name) => axiosInstance.post(C
 
 const C='condiments/'
 export const fetchCondiments = () => axiosInstance.get(C);
-export const fetchCondimentsByRestaurantId = (restaurantId) => axiosInstance.get(C+restaurantId, {restaurantId})
+export const fetchCondimentsByFoodId = (foodId) => axiosInstance.get(C+foodId, {foodId})
 
 const CONDIMENT_PATH='condiment/'
 

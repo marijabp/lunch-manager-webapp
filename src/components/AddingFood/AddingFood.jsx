@@ -110,7 +110,7 @@ class AddingFood extends Component {
                                                 );
                                             })
                                             :
-                                            <div>"Nema kategorija za prikaz"</div>}
+                                            ""}
                                     </Select>
                                 </FormControl>
                                 <div>

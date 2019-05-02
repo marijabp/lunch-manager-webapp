@@ -13,6 +13,7 @@ import Background from '../../images/authentication.jpg';
 import { registration, login } from '../../httpClient/UserAPI/userAPI';
 import { fetchRestaurantById } from '../../httpClient/RestaurantAPI/restaurantAPI';
 import { fetchCustomerById } from '../../httpClient/CustomerAPI/customerAPI';
+import StatusMessage from '../StatusMessage';
 
 
 const styles = {
@@ -63,7 +64,9 @@ class Authentication extends Component {
             password1ErrorMessage: "",
 
             roleErrorMessage: "",
-            role: "Customer"
+            role: "",
+
+            statusMessage: "",
         }
     }
 
@@ -86,30 +89,30 @@ class Authentication extends Component {
         let roleErrorMessage = "";
 
         if (this.state.role === "") {
-            roleErrorMessage = "Choose one role!";
+            roleErrorMessage = "Izaberite jednu ulogu!";
             valid = false;
 
         }
         if (this.state.name === "") {
-            nameErrorMessage = "Input a valid name";
+            nameErrorMessage = "Unesite validno ime!";
             valid = false;
         }
         if (this.state.surname === "" && this.state.role === "Customer") {
-            surnameErrorMessage = "Input a valid surname";
+            surnameErrorMessage = "Unesite validno prezime!";
             valid = false;
         }
 
         if (!(this.state.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) || !emailUnique) {
-            emailErrorMessage = "Input a valid email";
+            emailErrorMessage = "Unesite validan email!";
             valid = false;
         }
         if (this.state.password.length < 6) {
-            passwordErrorMessage = "Password too short ";
+            passwordErrorMessage = "Lozinka je prekratka!";
             valid = false;
         }
 
         if (this.state.password !== this.state.password1) {
-            password1ErrorMessage = "Passwords don't match ";
+            password1ErrorMessage = "Lozinke nisu iste!";
             valid = false;
         }
 
@@ -122,9 +125,9 @@ class Authentication extends Component {
         let valid = this.validation();
 
         if (valid) {
-            this.props.changeRole(this.state.role);
-            this.props.changeEmail(this.state.email);
-            this.props.logIn();
+            //  this.props.changeRole(this.state.role);
+            //  this.props.changeEmail(this.state.email);
+            //  this.props.logIn();
 
             var user = {
                 "role": this.state.role,
@@ -132,20 +135,24 @@ class Authentication extends Component {
                 "password": this.state.password,
                 "passwordConfirm": this.state.password1,
             }
-            const response = registration(user, this.state.name, this.state.surname);
-            console.log(response);
+            if (this.state.role === "Customer" || this.state.role === "Restaurant") {
+                const response = await registration(user, this.state.name, this.state.surname);
+                if (response.status === 200) {
+                    this.setState({ statusMessage: "Uspješna registracija! Ulogujte se!" })
+                }
+            }
         }
     }
 
 
     handleClickLogIn = async () => {
-        let loginErrorMessage = "Input valid data";
+        let loginErrorMessage = "Unesite validne podatke!";
         console.log("awaiting")
         try {
-            //  const response = await login(this.state.logInEmail, this.state.logInPassword);
-            //const response = await login("angelo@gmail.com", 1234567);
-             const response = await login("marija@gmail.com", 123456);
-            console.log(response)
+            const response = await login(this.state.logInEmail, this.state.logInPassword);
+           // const response = await login("kodmuje@gmail.com", 123456);
+           //  const response = await login("marija@gmail.com", 123456);
+         
             if (response.status === 200) {
                 var userId = response.data.id
                 this.props.logIn();
@@ -171,7 +178,7 @@ class Authentication extends Component {
 
     render() {
         const { loginErrorMessage, logInEmail, logInPassword, roleErrorMessage, role, nameErrorMessage, name, surnameErrorMessage,
-            surname, emailErrorMessage, email, passwordErrorMessage, password, password1ErrorMessage, password1 } = this.state
+            surname, emailErrorMessage, email, passwordErrorMessage, password, password1ErrorMessage, password1, statusMessage } = this.state
         return (
             <div style={styles.main}>
                 <div >
@@ -217,13 +224,13 @@ class Authentication extends Component {
                                     <FormLabel component="legend">Role</FormLabel>
                                     <RadioGroup
                                         error={roleErrorMessage}
-                                        aria-label="Role"
+                                        aria-label="Uloga"
                                         name="gender1"
                                         value={role}
                                         onChange={this.handleChange}
                                     >
-                                        <FormControlLabel value="Customer" control={<Radio color="primary" />} label="Customer" />
-                                        <FormControlLabel value="Restaurant" control={<Radio color="primary" />} label="Restaurant" />
+                                        <FormControlLabel value="Customer" control={<Radio color="primary" />} label="Kupac" />
+                                        <FormControlLabel value="Restaurant" control={<Radio color="primary" />} label="Restoran" />
                                     </RadioGroup>
                                 </FormControl>
                                 <ErrorMessage>{roleErrorMessage}</ErrorMessage>
@@ -280,6 +287,7 @@ class Authentication extends Component {
                                         color="primary">
                                         Register
                                     </Button>
+                                    <StatusMessage> {statusMessage} </StatusMessage>
                                 </div>
                             </form>
                         </div>

@@ -17,7 +17,7 @@ class Menu extends Component {
     orderDialogOpen: false,
     restaurantMenu: [],
   };
-  
+
   toggleOrderDialog = (selectedFood) => {
     this.setState({ orderDialogOpen: !this.state.orderDialogOpen, selectedFood })
   }
@@ -31,11 +31,13 @@ class Menu extends Component {
 
           <div>
             {restaurantMenu.map(category => {
-              return <MenuCategory
-                toggleOrderDialog={this.toggleOrderDialog}
-                key={category.categoryId}
-                category={category}
-              />
+              return (
+                category.foods.length > 0 ?
+                  <MenuCategory
+                    toggleOrderDialog={this.toggleOrderDialog}
+                    key={category.categoryId}
+                    category={category}
+                  /> : "")
             })
             }</div>
         </div>

@@ -14,9 +14,9 @@ class CondimentOrder extends Component {
     this.setState({ [name]: event.target.checked });
   };
   onChangeFavorite = event => {
-    console.log(event.target.checked, event.target.value);
     if(event.target.checked===true)
          this.props.handleAddCondiment(event.target.value)
+         
    /* if(event.target.checked===true){
         this.setState({condiments: [...this.state.condiments, event.target.value]})*/
     

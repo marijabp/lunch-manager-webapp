@@ -13,6 +13,7 @@ const styles = {
         flexWrap: "wrap",
         backgroundImage: "url(" + Background + ")",
         backgroundSize: "100%",
+        minHeight: "700px",
     },
 
 }
@@ -65,23 +66,15 @@ class Restaurant extends Component {
         this.setState({ restaurant: chosenRestaurant[0], restaurantMenu: chosenRestaurant[0].categories })
     }
 
-    onChangeFavorite = (event) => {
-        console.log(event.target.checked, event.target.value);
-        if (event.target.checked === true) {
-            this.setState({ condiments: [...this.state.condiments, event.target.value] })
-        }
-    }
-
     render() {
-        console.log(this.state.orderedItems)
-        const { id, user } = this.props
+        const { id, user, address } = this.props
         const { chosenFood, totalPrice, restaurantMenu, restaurant, orderedItems } = this.state
+    
 
         return (
             <div style={styles.main}>
                 <div><CategoryList restaurantMenu={restaurantMenu} /></div>
                 <div><Menu
-                    handleAddCondiments={this.onChangeFavorite}
                     handleAddItem={this.handleAddItem}
                     restaurantMenu={restaurantMenu}
                     total={this.total}
@@ -96,7 +89,8 @@ class Restaurant extends Component {
                     chosenFood={chosenFood}
                     orderedItems={orderedItems}
                     totalPrice={totalPrice}
-                    handleRemoveFromOrderedItems={this.handleRemoveFromOrderedItems} />
+                    handleRemoveFromOrderedItems={this.handleRemoveFromOrderedItems}
+                    address={address} />
                 </div>
             </div>
         );

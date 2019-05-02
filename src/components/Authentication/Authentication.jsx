@@ -135,23 +135,24 @@ class Authentication extends Component {
                 "password": this.state.password,
                 "passwordConfirm": this.state.password1,
             }
-            const response = await registration(user, this.state.name, this.state.surname);
-            console.log(response.status)
-            if (response.status === 200) {
-                this.setState({ statusMessage: "Uspješna registracija! Ulogujte se!" })
+            if (this.state.role === "Customer" || this.state.role === "Restaurant") {
+                const response = await registration(user, this.state.name, this.state.surname);
+                if (response.status === 200) {
+                    this.setState({ statusMessage: "Uspješna registracija! Ulogujte se!" })
+                }
             }
         }
     }
 
 
     handleClickLogIn = async () => {
-        let loginErrorMessage = "Input valid data";
+        let loginErrorMessage = "Unesite validne podatke!";
         console.log("awaiting")
         try {
             const response = await login(this.state.logInEmail, this.state.logInPassword);
-            //const response = await login("angelo@gmail.com", 1234567);
-            //  const response = await login("marija@gmail.com", 123456);
-            console.log(response)
+           // const response = await login("kodmuje@gmail.com", 123456);
+           //  const response = await login("marija@gmail.com", 123456);
+         
             if (response.status === 200) {
                 var userId = response.data.id
                 this.props.logIn();
@@ -176,7 +177,6 @@ class Authentication extends Component {
     };
 
     render() {
-        console.log(this.state.statusMessage)
         const { loginErrorMessage, logInEmail, logInPassword, roleErrorMessage, role, nameErrorMessage, name, surnameErrorMessage,
             surname, emailErrorMessage, email, passwordErrorMessage, password, password1ErrorMessage, password1, statusMessage } = this.state
         return (

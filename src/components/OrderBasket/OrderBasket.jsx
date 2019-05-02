@@ -9,6 +9,7 @@ import { addOrderItem } from '../../httpClient/OrderItemAPI/OrderItemAPI';
 import { fetchFoodsByResraurantId } from '../../httpClient/FoodAPI/foodAPI';
 import Divider from '@material-ui/core/Divider';
 import { fetchOptionsByFoodId } from '../../httpClient/OptionAPI/optionAPI';
+import { fetchCondimentsByFoodId } from '../../httpClient/CondimentAPI/condimentAPI';
 
 const styles = {
     paper: {
@@ -33,7 +34,7 @@ const styles = {
 
 class OrderBasket extends Component {
     state = {
-        address: "",
+        address: this.props.address,
         statusMessage: "",
     }
     async componentWillReceiveProps(nextProps) {
@@ -53,7 +54,7 @@ class OrderBasket extends Component {
         let i2 = removed[0].indexOf(' ', i1); // index of 1. space
         let i3 = removed[0].indexOf(' ', i2 + 1); // index of 2. space
         var number = parseInt(removed[0].slice(i2, i3)).toFixed(2) // izdvaja broj
-        var formatNumber = Number(Math.round(number+'e2')+'e-2').toFixed(2)
+        var formatNumber = Number(Math.round(number + 'e2') + 'e-2').toFixed(2)
         this.props.totalRemove(formatNumber)
         this.props.handleRemoveItem(chosenFood);
         this.props.handleRemoveFromOrderedItems(removedFromOrderedItems);
@@ -69,18 +70,29 @@ class OrderBasket extends Component {
             var totalPrice = this.props.totalPrice;
             const status = "PENDING";
             const response = await addOrder(restaurantId, customerId, totalPrice, status, this.state.address)
+            console.log(response)
             const response1 = await fetchLastAddedOrderByCustomer(customerId)
-            console.log(response1.data)
             const orderId = response1.data.orderId
             this.props.orderedItems.map(async orderItem => {
                 var foodName = orderItem.name
                 var optionName = orderItem.chosenOption
+
                 var foods = await fetchFoodsByResraurantId(restaurantId);
                 const food = foods.data.filter(food => foodName === food.name);
-                var optionsByFoodId = await fetchOptionsByFoodId(food[0].foodId)
-                const option = optionsByFoodId.data.filter (option => option.name === optionName)
-                const response2 = await addOrderItem(orderId, food[0].foodId, option[0].optionId, null, orderItem.quantity)
-                console.log(response2.status)
+                const foodId = food[0].foodId
+
+                var optionsByFoodId = await fetchOptionsByFoodId(foodId)
+                const option = optionsByFoodId.data.filter(option => option.name === optionName)
+
+                var condimentsByFoodId = await fetchCondimentsByFoodId(foodId)
+                const condimentIds = []
+                orderItem.condiments.map( condiment =>  {
+                    var condimentInDatabase = condimentsByFoodId.data.filter(condiments => condiment === condiments.name)
+                    var chosenCondiment = condimentInDatabase[0]
+                    condimentIds.push(chosenCondiment.condimentId)
+                })
+                const response2 = await addOrderItem(orderId, food[0].foodId, option[0].optionId, condimentIds , orderItem.quantity)
+                console.log(response2)
             })
         }
         catch (e) {

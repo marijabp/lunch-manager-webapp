@@ -3,7 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import ErrorMessage from '../ErrorMessage';
 import Paper from '@material-ui/core/Paper';
-import { changePassword, fetchUserById } from '../../httpClient/UserAPI/userAPI';
+import { changePassword, fetchUserById } from '../../httpClient/userAPI';
 import StatusMessage from '../StatusMessage';
 
 const styles = {

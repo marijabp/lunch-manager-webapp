@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { fetchOrdersByRestaurantId } from '../../httpClient/OrderAPI/orderAPI';
+import { fetchOrdersByRestaurantId } from '../../httpClient/orderAPI';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import { updateOrder } from '../../httpClient/OrderAPI/orderAPI';
+import { updateOrder } from '../../httpClient/orderAPI';
 import { Divider } from '@material-ui/core';
 
 const styles = {

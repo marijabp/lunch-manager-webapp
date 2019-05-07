@@ -5,7 +5,7 @@ import AddCondimentToFood from '../AddCondimentToFood';
 import AddOptionToFood from '../AddOptionToFood/AddOptionToFood';
 import DeleteFoodItem from '../DeleteFoodItem/DeleteFoodItem';
 import Background from '../../images/restaurantactions1.jpg';
-import { fetchFoodsByResraurantId } from '../../httpClient/FoodAPI/foodAPI';
+import { fetchFoodsByResraurantId } from '../../httpClient/foodAPI';
 import PendingOrders from '../PendingOrders/PendingOrders';
 import { Button, Paper } from '@material-ui/core';
 

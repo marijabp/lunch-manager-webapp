@@ -6,8 +6,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
-import { addCondiment } from '../../httpClient/CondimentAPI/condimentAPI';
-import { fetchFoodsByResraurantId } from '../../httpClient/FoodAPI/foodAPI';
+import { addCondiment } from '../../httpClient/condimentAPI';
+import { fetchFoodsByResraurantId } from '../../httpClient/foodAPI';
 import StatusMessage from '../StatusMessage';
 
 const styles = {

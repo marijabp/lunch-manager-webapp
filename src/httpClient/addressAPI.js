@@ -1,4 +1,4 @@
-import axiosInstance from '../api'
+import axiosInstance from './api'
 
 const ADDRESSES_PATH = 'addresses'
 export const fetchAddresses = () => axiosInstance.get(ADDRESSES_PATH)

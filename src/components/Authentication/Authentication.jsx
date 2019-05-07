@@ -10,9 +10,9 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import './Authentication.css';
 import Background from '../../images/authentication.jpg';
-import { registration, login } from '../../httpClient/UserAPI/userAPI';
-import { fetchRestaurantById } from '../../httpClient/RestaurantAPI/restaurantAPI';
-import { fetchCustomerById } from '../../httpClient/CustomerAPI/customerAPI';
+import { registration, login } from '../../httpClient/userAPI';
+import { fetchRestaurantById } from '../../httpClient/restaurantAPI';
+import { fetchCustomerById } from '../../httpClient/customerAPI';
 import StatusMessage from '../StatusMessage';
 
 

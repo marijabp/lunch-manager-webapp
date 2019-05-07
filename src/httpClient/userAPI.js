@@ -1,4 +1,4 @@
-import axiosInstance from '../api';
+import axiosInstance from './api';
 
 const REGISTRATION_PATH = 'registration';
 export const registration = (user, name, surname) => axiosInstance.post(REGISTRATION_PATH, { user, name, surname });

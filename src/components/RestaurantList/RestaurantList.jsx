@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Link } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import Background from '../../images/restaurantlist.jpg';
-import { fetchRestaurants } from '../../httpClient/RestaurantAPI/restaurantAPI';
+import { fetchRestaurants } from '../../httpClient/restaurantAPI';
 
 const styles = {
     main: {

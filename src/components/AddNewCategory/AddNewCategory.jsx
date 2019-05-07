@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-import { addCategory, fetchCategoriesByRestaurantId } from '../../httpClient/CategoryAPI/categoryApi';
+import { addCategory, fetchCategoriesByRestaurantId } from '../../httpClient/categoryApi';
 import StatusMessage from '../StatusMessage';
 
 const styles = {

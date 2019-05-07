@@ -48,7 +48,7 @@ class App extends Component {
     return (
       <Fragment>
         {loggedIn ?
-          <div > {role === 'Customer' ?
+          <Fragment > {role === 'Customer' ?
             <Router>
               <div>
                 <NavBar loggedIn={loggedIn} loginEmail={loginEmail} user={user} logOut={this.logOut}> </NavBar>
@@ -68,7 +68,7 @@ class App extends Component {
               </div>
             </Router>
 
-          }</div>
+          }</Fragment>
           :
           <Authentication logIn={this.logIn} changeData={this.changeData} changeRole={this.changeRole} changeEmail={this.changeEmail} changeId={this.changeId}></Authentication>}
       </Fragment>

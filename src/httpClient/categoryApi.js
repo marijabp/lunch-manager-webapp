@@ -1,4 +1,4 @@
-import axiosInstance from '../api'
+import axiosInstance from './api'
 
 const CATEGORIES_PATH = 'categories/'
 

@@ -3,7 +3,7 @@ import Menu from '../Menu';
 import OrderBasket from '../OrderBasket';
 import CategoryList from '../CategoryList';
 import Background from '../../images/restaurantmenu.jpg';
-import { fetchRestaurants } from '../../httpClient/RestaurantAPI/restaurantAPI';
+import { fetchRestaurants } from '../../httpClient/restaurantAPI';
 
 const styles = {
     main: {

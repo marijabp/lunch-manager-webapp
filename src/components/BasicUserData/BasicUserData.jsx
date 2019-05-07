@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import { updateRestaurant } from '../../httpClient/RestaurantAPI/restaurantAPI';
-import { updateCustomer } from '../../httpClient/CustomerAPI/customerAPI';
+import { updateRestaurant } from '../../httpClient/restaurantAPI';
+import { updateCustomer } from '../../httpClient/customerAPI';
 import StatusMessage from '../StatusMessage';
 
 const styles = {

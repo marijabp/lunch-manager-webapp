@@ -4,12 +4,12 @@ import Button from '@material-ui/core/Button';
 import RemoveItemButton from '../RemoveItemButton';
 import TextField from '@material-ui/core/TextField';
 import './OrderBasket.css'
-import { addOrder, fetchLastAddedOrderByCustomer } from '../../httpClient/OrderAPI/orderAPI';
-import { addOrderItem } from '../../httpClient/OrderItemAPI/OrderItemAPI';
-import { fetchFoodsByResraurantId } from '../../httpClient/FoodAPI/foodAPI';
+import { addOrder, fetchLastAddedOrderByCustomer } from '../../httpClient/orderAPI';
+import { addOrderItem } from '../../httpClient/OrderItemAPI';
+import { fetchFoodsByResraurantId } from '../../httpClient/foodAPI';
 import Divider from '@material-ui/core/Divider';
-import { fetchOptionsByFoodId } from '../../httpClient/OptionAPI/optionAPI';
-import { fetchCondimentsByFoodId } from '../../httpClient/CondimentAPI/condimentAPI';
+import { fetchOptionsByFoodId } from '../../httpClient/optionAPI';
+import { fetchCondimentsByFoodId } from '../../httpClient/condimentAPI';
 
 const styles = {
     paper: {

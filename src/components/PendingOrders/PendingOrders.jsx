@@ -92,7 +92,7 @@ class PendingOrders extends Component {
                                                             <div> Količina: {item.quantity} </div>
                                                             <div> Opcija: {item.option.name !== null ? item.option.name : "Standard"}</div>
                                                             <div> Cijena jedne porcije: {item.option.price} </div>
-                                                            <div> Izabrani prilog: {item.condiment.name} </div>
+                                                            <div> Izabrani prilog: {item.condiment !== null ? item.condiment.name : ""} </div>
 
                                                         </div>
                                                     );

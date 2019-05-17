@@ -10,6 +10,7 @@ import { fetchFoodsByResraurantId } from '../../httpClient/foodAPI';
 import Divider from '@material-ui/core/Divider';
 import { fetchOptionsByFoodId } from '../../httpClient/optionAPI';
 import { fetchCondimentsByFoodId } from '../../httpClient/condimentAPI';
+import StatusMessage from '../StatusMessage';
 
 const styles = {
     paper: {
@@ -86,14 +87,27 @@ class OrderBasket extends Component {
 
                 var condimentsByFoodId = await fetchCondimentsByFoodId(foodId)
                 const condimentIds = []
-                orderItem.condiments.map( condiment =>  {
-                    var condimentInDatabase = condimentsByFoodId.data.filter(condiments => condiment === condiments.name)
-                    var chosenCondiment = condimentInDatabase[0]
-                    condimentIds.push(chosenCondiment.condimentId)
-                })
-                const response2 = await addOrderItem(orderId, food[0].foodId, option[0].optionId, condimentIds , orderItem.quantity)
-                console.log(response2)
+                if (orderItem.condiments.length > 0) {
+                    orderItem.condiments.map(async condiment => {
+                        var condimentInDatabase = condimentsByFoodId.data.filter(condiments => condiment === condiments.name)
+                        var chosenCondiment = condimentInDatabase[0]
+                        condimentIds.push(chosenCondiment.condimentId)
+                        const response2 = await addOrderItem(orderId, food[0].foodId, option[0].optionId, chosenCondiment.condimentId, orderItem.quantity)
+                        console.log(response2)
+                    })
+                }
+                else{
+                    const response2 = await addOrderItem(orderId, food[0].foodId, option[0].optionId, null, orderItem.quantity)
+                    console.log(response2)
+                }
+
+
+                if (response.status === 200) {
+                    this.setState({ statusMessage: "Vaša narudžba je uspješno obavljena!" })
+                }
             })
+            this.props.clearBasket();
+
         }
         catch (e) {
             console.log(e)
@@ -101,7 +115,7 @@ class OrderBasket extends Component {
     }
     render() {
         const { chosenFood, totalPrice } = this.props
-        const { address } = this.state
+        const { address, statusMessage } = this.state
         return (
             <Fragment>
                 <Paper style={styles.paper}>
@@ -129,6 +143,7 @@ class OrderBasket extends Component {
                             />
                         </div>
                         <Button variant="outlined" onClick={this.handleClick} color="default">Naruči</Button>
+                        <StatusMessage>{statusMessage}</StatusMessage>
                     </div>
                 </Paper>
             </Fragment>

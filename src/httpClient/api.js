@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default axios.create(
     {
-        baseURL: process.env === 'development' ? 'http://localhost:8080' : 'https://dashboard.heroku.com/apps/lunch-manager-webapp',
+        baseURL: 'http://localhost:8080',
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',

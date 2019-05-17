@@ -34,7 +34,14 @@ class Restaurant extends Component {
             orderedItems: [...this.state.orderedItems, orderItem]
         })
     };
-
+    clearBasket = () => {
+        this.setState({
+            chosenFood: [],
+            price: [],
+            orderedItems: [],
+            totalPrice: 0
+        })
+    }
     total = (a) => {
         let totalPrice = this.state.totalPrice;
         totalPrice += a;
@@ -90,7 +97,8 @@ class Restaurant extends Component {
                     orderedItems={orderedItems}
                     totalPrice={totalPrice}
                     handleRemoveFromOrderedItems={this.handleRemoveFromOrderedItems}
-                    address={address} />
+                    address={address}
+                    clearBasket={this.clearBasket} />
                 </div>
             </div>
         );
